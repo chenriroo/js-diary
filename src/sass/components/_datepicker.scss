@@ -1,0 +1,32 @@
+.datepicker {
+	text-align: center;
+
+	&__years {
+		flex: 1;
+		display: flex;
+		flex-flow: row;
+		//justify-content: stretch;
+		overflow: scroll hidden;
+		//border-bottom: 2px solid rgb(240, 240, 240);
+
+		@include respond(desktop) {
+			width: 39rem;
+		}
+
+		& > label {
+			margin: auto;
+		}
+
+		&:hover {
+			//
+		}
+	}
+
+	&__months {
+		flex: 1.5;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-flow: row wrap;
+	}
+}

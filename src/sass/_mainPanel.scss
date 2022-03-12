@@ -1,0 +1,37 @@
+.main {
+	flex: 1;
+	display: flex;
+	flex-flow: row;
+	justify-content: center;
+	background-color: rgb(235, 235, 235);
+}
+
+.entry {
+	display: flex;
+	flex-flow: column;
+	background-color: rgb(255, 255, 255);
+	width: 70rem;
+	padding: 4rem;
+	margin: 2rem 0 2rem 0;
+	box-shadow: 0 0 10px 0 rgb(220, 220, 220);
+	opacity: 1;
+	transition: opacity 0.2s ease-in;
+
+	&--inset {
+		box-shadow: none;
+	}
+
+	&__settings {
+		display: flex;
+		justify-content: flex-end;
+		//border-bottom: 1px solid rgb(133, 112, 112);
+	}
+  
+	&__view {
+
+	}
+
+	&__edit {
+		
+	}
+}

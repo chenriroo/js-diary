@@ -1,0 +1,32 @@
+.container {
+	display: flex;
+	flex-flow: column;
+	height: 100vh;
+}
+
+#app {
+	flex: 1;
+	display: flex;
+	justify-content: center;
+	overflow: hidden;
+}
+
+.bottom-nav {
+	flex: 0 0 5rem;
+	height: 5rem;
+	background-color: rgb(65, 65, 65);
+	border-top: 2px solid rgb(240, 240, 240);
+	z-index: 10;
+
+	@include respond(desktop) {
+		//display: none;;
+	}
+
+	&__list {
+		height: 100%;
+		list-style: none;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+}

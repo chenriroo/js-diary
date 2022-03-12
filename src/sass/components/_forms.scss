@@ -1,0 +1,109 @@
+.form {
+	display: flex;
+	flex-flow: column;
+
+	&__date {
+		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+		padding: 1rem;
+		width: 20rem;
+		//background-color: rgb(250, 250, 250);
+
+		&:focus { border: 0; outline:0; }
+		font-size: 2em;
+		font-weight: bold;
+		
+	}
+
+	&__time {
+		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+		padding: 1rem;
+		width: 20rem;
+		//background-color: rgb(250, 250, 250);
+
+		&:focus { border: 0; outline:0; }
+	}
+
+	&__title {
+		padding: 1rem;
+		border-bottom: 1px solid rgb(240, 240, 240);
+
+		&:focus { 
+			border-bottom: 1px solid rgb(240, 240, 240); 
+			outline: 0;
+		}
+	}
+
+
+}
+
+.form__radio {
+
+	&--year {
+		display: none;
+		
+		&:hover + label {
+			background-color: rgba(210, 235, 255, 0.40);
+			border-radius: 4px; 
+		}
+
+		&:checked + label {
+			background-color: rgba(210, 235, 255, 0.80);
+			border-radius: 4px; 
+			
+		}
+
+	}
+
+	&--month {
+		display: none;
+
+		&:hover +label {
+			background-color: rgba(210, 235, 255, 0.40);
+			border-radius: 4px; 
+		}
+
+		&:checked + label {
+			background-color: rgba(210, 235, 255, 0.80);
+			border-radius: 4px;
+		}
+
+	}
+}
+
+.form__label {
+	
+	&--month {
+		flex: 0 0 7rem;
+		padding: 2rem;
+		text-align: center;
+		&:hover { cursor: pointer; }
+
+		@include respond(desktop) {
+			padding: 1rem;
+			margin: 0.5rem;
+		}
+	}
+
+	&--year {
+		display: block;
+		padding: 2rem;
+		text-align: center;
+		line-height: 3rem;
+		&:hover { cursor: pointer; }
+
+		@include respond(desktop) {
+			line-height: 2rem;
+			padding: 1rem;
+			margin: 0.5rem;
+		}
+	}
+}
+
+.form__textarea {
+	height: 20rem;
+	padding: 1rem;
+	font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	border: 0;
+
+	&:focus { border: 0; outline: 0; }
+}

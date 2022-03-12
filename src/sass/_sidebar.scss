@@ -1,0 +1,72 @@
+.sidebar {
+	display: flex;
+	flex-flow: column;
+	position: fixed;
+	height: 70%;
+	width: 100%;
+	bottom: 5rem;
+	opacity: 1;
+	color: black;
+	background-color: rgb(245, 245, 245);
+	box-shadow: 0 0 10px 0 rgb(220, 220, 220);
+	transition: height 0.2s, opacity 0.2s;
+	border-top: 4px solid rgb(220, 220, 220);
+	border-radius: 5px;
+	
+
+	&--collapse {
+		height: 0;
+		opacity: 0;
+	}
+
+	@include respond(desktop) {
+		flex: 0 0 40rem;
+		width: 40rem;
+		display: flex;
+		position: fixed;
+		flex-flow: column;
+		left: 0%;
+		padding: 0;
+		bottom: 0;
+		height: 100%;
+		border: none;
+		border-right: 4px solid rgb(220, 220, 220);
+	}
+
+	&__date {
+		flex: 0 0 20rem;
+		display: flex;
+		flex-flow: column;
+		padding: 0rem 0;
+		justify-content: space-between;
+		border-bottom: 2px solid rgb(240, 240, 240);
+
+		@include respond(desktop) {
+			
+		}
+	}
+
+	&__entries {
+		flex: 1 0 30rem;
+		overflow: hidden;
+
+		@include respond(desktop) {
+			flex: 1;
+		}
+	}
+}
+
+.entries {
+	&__list {
+		list-style: none;
+	}
+
+	&__item {
+		//
+	}
+}
+
+
+.hidden {
+	display:none;
+}
