@@ -1,4 +1,5 @@
 import {format} from 'date-fns'
+import { AJAX } from './helpers';
 
 export const state = {
 	curDate: {
@@ -19,8 +20,7 @@ export const state = {
 // Retrieves years for display in datepicker
 export const getYears = async () => {
 	try {
-		const res = await fetch('http://localhost:5000/years');
-		const years = await res.json();
+		const years = await AJAX('http://localhost:5000/years');
 		return years
 	} catch (err) {
 		console.log(err)
@@ -31,17 +31,15 @@ export const getYears = async () => {
 // TODO: refactor merging getEntries & getEntriesPaginated
 export const getEntries = async (type, inputDate) => {
 	try {
-		let res;
+		let fetchedEntries;
 
 		if(type === 'date') {
 			const date = `${inputDate.year}-${inputDate.month}`
-			res = await fetch(`http://localhost:5000/entries?date_like=${date}`);
+			fetchedEntries = await AJAX(`http://localhost:5000/entries?date_like=${date}`);
 		} else if (type === 'paginate') {
-			res = await fetch('http://localhost:5000/entries?_page=1&_limit=8');
+			fetchedEntries = await AJAX('http://localhost:5000/entries?_page=1&_limit=8');
 		}
 		
-		let fetchedEntries = await res.json();
-
 		const arrEntries = fetchedEntries.map(entry => {
 			const [date,time] = formatTime(entry.date)
 			return { 
@@ -60,7 +58,6 @@ export const getEntries = async (type, inputDate) => {
 }
 
 
-// Format time for editing in form
 const formatTime = (input) => {
 	const objDate = new Date(input)
 	const year = objDate.getFullYear();
@@ -69,18 +66,39 @@ const formatTime = (input) => {
 	const hour = objDate.getHours();
 	const minutes = objDate.getMinutes();
 
+
+
 	if(month < 10) month = `0${month}`;
 	if(day < 10) day = `0${day}`;
 
+	// Same for the time: 1:00 should be 01:10  - double digits
+	
 	const date = `${year}-${month}-${day}`
 	const time = `${hour}:${minutes}`
 
 	return [date, time];
 }
 
-export const getEntry = (id, array) => {
+const createEntryObject = (data) => {
+		const [date, time] = formatTime(data.date)
+		const objEntry = {
+			id: data.id,
+			date: date,
+			time: time,
+			content: data.content
+		}
+
+	return objEntry
+}
+
+export const getEntry = async (id) => {
 	try {
-		state.curEntry = state[array].find(entry => entry.id === +id);
+		const entry = await AJAX(`http://localhost:5000/entries/${id}`);
+
+		state.curEntry = createEntryObject(entry)
+
+		return
+
 	} catch(err) {
 		console.error(err, 'model.getEntry()')
 	}
@@ -115,22 +133,43 @@ export const createEntry = async () => {
 		time: time,
 		content: entry.content
 	};
+	addYear(date, time)
 
 	state.curEntry = outputEntry;
 	return
 }
 
+// When adding an new entry, checks if the year exists in the db.
+// Add the year if needed
+const addYear = async (date, time) => {
+	console.log(date, time);
+}
+
+const updateStateCurEntry = (arrData) => {
+	const newCurEntry = {
+		id: arrData[0],
+		date: arrData[1],
+		time: arrData[2],
+		content: arrData[3]
+	};
+	state.curEntry = newCurEntry;
+}
+
 
 export const editEntry = async (id, data) => {
+
 	const [date, time, content] = data;
 
-	const newDate = new Date(`${date} ${time}`)
+	updateStateCurEntry([id, date, time, content]);
+
+	const newDate = new Date(`${date} ${time}`);
 
 	const newEntry = {
 		date: newDate,
 		content: content,
 	};
-	const res = fetch(`http://localhost:5000/entries/${id}`, {
+
+	const res = await fetch(`http://localhost:5000/entries/${id}`, {
 		method: 'PUT',
 		headers: {
 			'Content-type': 'application/json'

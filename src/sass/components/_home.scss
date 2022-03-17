@@ -16,7 +16,7 @@
 		
 
 		&--expanded {
-			flex: 3;
+			//flex: 3;
 		}
 	}
 
@@ -33,6 +33,11 @@
 			flex: 1;
 			overflow: hidden;
 		}
+
+		@include respond(desktop) {
+			max-width: 100rem;
+			align-self: center;
+		}
 	}
 }
 
@@ -47,7 +52,7 @@
 	background-color: white;
 	box-shadow: 0 0 10px 0 rgb(220, 220, 220);
 	border-radius: 4px;
-	transition: flex 0.5s ease-in, height 0.5s ease-in;
+	transition: flex 0.2s ease-in, height 0.2s ease-in;
 	
 	& > h1, button {
 		opacity: 1;

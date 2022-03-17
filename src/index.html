@@ -5,28 +5,27 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<script src="js/index.js" type="module"></script>
-	<script src="js/controllers/navController.js" type="module"></script>
 	<link rel="stylesheet" href="sass/main.scss">
 	<title>Diary App</title>
 </head>
 <body>
 	<div class="container">
 
-		<main id="app">
+		<div id="app">
 			
 			<div class="sidebar sidebar--collapse hidden">
 				<div class="sidebar__date"></div>
-				<div class="sidebar__entries"></div>
+				<nav class="sidebar__entries"></nav>
 			</div>
 
-			<div class="main"></div>
+			<main class="main"></main>
 			
-		</main>
+		</div>
 
 		<nav class="bottom-nav">
 			<ul class="bottom-nav__list">
 				<li><button class="btn btn--bottom-nav btn--entries">Entries</button></li>
-				<li><button class="btn btn--bottom-nav btn--home">Home</button></li>
+				<li><a class="btn btn--bottom-nav btn--home" href="/">Home</a></li>
 				<li><button class="btn btn--bottom-nav btn--settings">Settings</button></li>
 			</ul>
 		</nav>

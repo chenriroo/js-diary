@@ -8,8 +8,6 @@ class PreviewEntryView extends View {
 		let content;
 		let cssClass;
 
-		//console.log(entry)
-
 		if(entrySize === 'small') {
 			day = entry.date.slice(8,10);
 			content = entry.content.slice(0,5);
@@ -25,21 +23,18 @@ class PreviewEntryView extends View {
 		}
 
 		return `
-				<li class="entries__item ">
-					<a class="entryPreview ${cssClass}" href="/#${entry.id}">
-						<div class="entryPreview__day">
-							<span>${day}</span>
-						</div>
-						<div class="entryPreview__other">
-							<span>${entry.time}</span>
-							<span class="entries__preview">${content}</span>
-						</div>
+			<a class="entryPreview ${cssClass}" href="/#${entry.id}">
+				<div class="entryPreview__day">
+					<span>${day}</span>
+				</div>
+				<div class="entryPreview__other">
+					<span class="entryPreview__time">${entry.time}</span>
+					<span class="entryPreview__content">${content}</span>
+				</div>
 
-					</a>
-				</li>
+			</a>
 		`
 	}
-
 }
 
 export default new PreviewEntryView()

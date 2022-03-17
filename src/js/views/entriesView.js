@@ -8,11 +8,9 @@ class Entries extends View {
 	HTML() {
 		//console.log(this._data)
 		return `
-			<ul class="entries__list">
+			<nav role="navigation" class="entries__list">
 				${this._data.entries.map(entry => PreviewEntry.render([entry, this._data.entrySize], false)).join('')}
-			</ul>
-
-			<button class="btn btn--new-entry">New Entry</button>
+			</nav>
 			`
 	}
 	removeListeners() {
@@ -26,6 +24,8 @@ class Entries extends View {
 		})
 	}
 	
+
+	// Not used, instead using hash in anchortag
 	listenerSelectEntry(handler) {
 		const elListener = document.querySelector('.entries__list')
 		elListener.addEventListener('click', e => {
@@ -34,20 +34,9 @@ class Entries extends View {
 			if(targetEl.tagName === 'SPAN') targetEl = targetEl.parentNode.parentNode;
 			if(targetEl.tagName !== 'A') return
 			
-			const hash = targetEl.hash.substr(1,1);
-
-			handler(hash, 'curEntries');
+			//const hash = targetEl.hash.substr(1,1);
+			//handler('curEntries');
 		})
-	}
-
-	listenerDeleteEntry(handler) {
-		console.log('listenerDeleteEntry')
-	}	
-
-	addListener(handlers) {
-
-		// const hash = el.hash.substring(1); // select anchor element
-		// handler.selectEntry(hash);
 	}
 }
 

@@ -19,10 +19,8 @@ class HomeView extends View {
 					</div>
 				</div>
 
-				<div class="home__recent-entries">
-					<ul class="entries__list">
-						${this._data.map(entry => PreviewEntry.render([entry, 'home'], false)).join('')}
-					</ul>
+				<div role="navigation" class="home__recent-entries">					
+					${this._data.map(entry => PreviewEntry.render([entry, 'home'], false)).join('')}
 				</div>
 			</div>
 		`
@@ -30,8 +28,9 @@ class HomeView extends View {
 
 	expandNote(handlers) {
 		const elEntry = document.querySelector('.home__new-entry');
-		const newEntryBox = document.querySelector("[data-home='newEntryBox']");
 		const entries = document.querySelector('.home__recent-entries');
+		const newEntryBox = document.querySelector("[data-home='newEntryBox']");
+		
 		let entry;
 		let markup;
 
@@ -45,7 +44,8 @@ class HomeView extends View {
 		newEntryBox.classList.toggle('block--expand');
 		entries.classList.toggle('home__recent-entries--shrink');
 
-		handlers.createEntry()
+		setTimeout(() => {
+			handlers.createEntry()
 			.then(curEntry => { // entry object: date,content,id
 				markup = EntryEdit.render({entry: curEntry}, false);
 				newEntryBox.insertAdjacentHTML('afterbegin', markup);
@@ -57,12 +57,14 @@ class HomeView extends View {
 				EntryEdit.addListenerUpdate(handlers.updateEntry);
 			})
 			.catch(err => console.log(err, 'when creating new entry'));
+		},300)
+
 		
 		setTimeout(() => {
 			btn.remove();
 			text.remove();
 			entry.classList.toggle('invisible');
-		},300);
+		},500);
 	};
 
 	deleteEntry(id, handlers) {
@@ -100,6 +102,8 @@ class HomeView extends View {
 		el.addEventListener('click', e => this.expandNote(handlers));
 	}
 
+
+	// Not used, instead using hash in anchortag
 	addListenerViewEntry(handler) {
 		const element = document.querySelector('.home__recent-entries');
 		element.addEventListener('click', e => {

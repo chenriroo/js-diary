@@ -17,7 +17,6 @@ const controllerDisplayHome = async () => {
 		deleteEntry: handleDeleteEntry,
 		updateEntry: handleUpdateEntry,
 	});
-	HomeView.addListenerViewEntry(handleDisplayEntry);
 }
 
 
@@ -39,7 +38,6 @@ const handleGetEntries = async (input, reload=false) => {
 
 	if(!reload) {
 		model.storeDateSelection(input) // input year & month
-		// When data for both year & month available, show entries
 		if(model.state.curDate.year === '' || model.state.curDate.month === '') return
 		
 		await model.getEntries('date', model.state.curDate)
@@ -49,20 +47,18 @@ const handleGetEntries = async (input, reload=false) => {
 		entries: model.state.curEntries,
 		entrySize: model.state.settings.entrySize
 	})
-
-	// Remove previous listeners maybe
-	
-	// Add listeners
-	Entries.listenerCreateEntry(handleCreateEntry);
-	Entries.listenerSelectEntry(handleDisplayEntry);
-	//Entries.listenerDeleteEntry(handleDeleteEntry);
-
 }
 
 
 // Display entry, take in from state: [curEntries] or [homeEntries]
-const handleDisplayEntry = (id, array) => {
-	model.getEntry(id, array);
+const handleDisplayEntry = async () => {
+
+	const hash = window.location.hash.slice(1)
+	if(!hash) return
+
+	await model.getEntry(hash);
+
+	console.log(model.state.curEntry)
 
 	if(model.state.modes.editMode) {
 		EntryEdit.render({entry: model.state.curEntry});
@@ -120,9 +116,10 @@ const handleDeleteEntry = async (id) => {
 }
 
 const handleUpdateEntry = async (id, data) => {
-	console.log('handleUpdateEntry')
-	console.log([id, data])
-	// await model.editEntry(id, data);
+	console.log('handleUpdateEntry', [id, data])
+	await model.editEntry(id, data);
+
+	console.log(model.state.curEntry)
 
 	// Update state
 
@@ -179,7 +176,9 @@ const init = () => {
 		entries: controllerDisplayEntries,
 		settings: controllerDisplaySettings
 	});
-
 }
 
 init();
+
+window.addEventListener('hashchange', handleDisplayEntry);
+window.addEventListener('load', handleDisplayEntry);

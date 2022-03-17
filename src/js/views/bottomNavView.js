@@ -11,6 +11,7 @@ class BottomNav extends View {
 
 			if(el.textContent === 'Home') {
 				handler.home();
+				window.location.href = '/'
 			}
 
 			if(el.textContent === 'Entries') {

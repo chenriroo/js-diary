@@ -55,7 +55,11 @@
 	&__other {
 		flex: 4;
 		display: flex;
-		flex-flow: row;
+		flex-flow: column;
+	}
+
+	&__content {
+
 	}
 
 	&--small { height: 5rem; }
