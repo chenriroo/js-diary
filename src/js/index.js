@@ -58,7 +58,7 @@ const handleDisplayEntry = async () => {
 
 	await model.getEntry(hash);
 
-	console.log(model.state.curEntry)
+	//console.log(model.state.curEntry)
 
 	if(model.state.modes.editMode) {
 		EntryEdit.render({entry: model.state.curEntry});
@@ -119,7 +119,6 @@ const handleUpdateEntry = async (id, data) => {
 	console.log('handleUpdateEntry', [id, data])
 	await model.editEntry(id, data);
 
-	console.log(model.state.curEntry)
 
 	// Update state
 

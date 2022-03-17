@@ -81,6 +81,7 @@ const formatTime = (input) => {
 
 const createEntryObject = (data) => {
 		const [date, time] = formatTime(data.date)
+
 		const objEntry = {
 			id: data.id,
 			date: date,
@@ -94,9 +95,8 @@ const createEntryObject = (data) => {
 export const getEntry = async (id) => {
 	try {
 		const entry = await AJAX(`http://localhost:5000/entries/${id}`);
-
+		
 		state.curEntry = createEntryObject(entry)
-
 		return
 
 	} catch(err) {
@@ -110,28 +110,20 @@ export const toggleEditMode = (isEditMode) => {
 }
 
 export const createEntry = async () => {
-	const curDate = new Date()
-	//const curDate = format(new Date(), 'yyyy-MM-dd');
-	let entry = {
-		date: curDate,
+	let objNewEntry = {
+		date: new Date(),
 		content: '',
 	}
-	const res = await fetch(`http://localhost:5000/entries/`, {
-		method: 'POST',
-		headers: {
-			'Content-type': 'application/json',
-		},
-		body: JSON.stringify(entry)
-	})
-	entry = await res.json();
 
-	//
-	const [date, time] = formatTime(entry.date)
+	let foo = await AJAX(`http://localhost:5000/entries/`, objNewEntry)
+
+	const [date, time] = formatTime(foo.date)
+
 	const outputEntry = {
-		id: entry.id,
+		id: foo.id,
 		date: date,
 		time: time,
-		content: entry.content
+		content: foo.content
 	};
 	addYear(date, time)
 
@@ -157,33 +149,37 @@ const updateStateCurEntry = (arrData) => {
 
 
 export const editEntry = async (id, data) => {
+	try {
+		const [date, time, content] = data;
 
-	const [date, time, content] = data;
+		updateStateCurEntry([id, date, time, content]);
+	
+		const newDate = new Date(`${date} ${time}`);
+	
+		const newEntry = {
+			date: newDate,
+			content: content,
+		};
+	
+		const res = await fetch(`http://localhost:5000/entries/${id}`, {
+			method: 'PUT',
+			headers: {
+				'Content-type': 'application/json'
+			},
+			body: JSON.stringify(newEntry),
+		});
 
-	updateStateCurEntry([id, date, time, content]);
+	} catch(err) {
+		console.error(err)
+		// Render error
+	}
 
-	const newDate = new Date(`${date} ${time}`);
-
-	const newEntry = {
-		date: newDate,
-		content: content,
-	};
-
-	const res = await fetch(`http://localhost:5000/entries/${id}`, {
-		method: 'PUT',
-		headers: {
-			'Content-type': 'application/json'
-		},
-		body: JSON.stringify(newEntry),
-	})
-	return
 }
 
 export const deleteEntry = async (id) => {
-	const res = await fetch(`http://localhost:5000/entries/${id}`, {
+	await fetch(`http://localhost:5000/entries/${id}`, {
 		method: 'DELETE',
-	})
-	return
+	});
 }
 
 

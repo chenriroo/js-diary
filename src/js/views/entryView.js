@@ -4,6 +4,8 @@ class EntryView extends View {
 	_parentElement = this.selectEl('.main')
 
 	HTML() {
+		const content = this._data.entry.content.replaceAll('\n','<br/>')
+
 		return `
 			<div class="entry entry__view">
 				<div class="entry__settings">
@@ -11,7 +13,7 @@ class EntryView extends View {
 					<button class="btn">Delete</button>
 				</div>
 				<h1>${this._data.entry.date}, ${this._data.entry.time}</h1>
-				<p>${this._data.entry.content}</h1>
+				<p>${content}</p>
 			</div>
 		`
 	};
