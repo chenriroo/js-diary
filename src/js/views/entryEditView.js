@@ -1,7 +1,7 @@
 import View from "./View";
 
 class EntryEditView extends View {
-	_parentElement = this.selectEl('.main')
+	_parentElement = document.querySelector('.main');
 
 	HTML() {
 		//console.log(this._data)
@@ -23,11 +23,25 @@ class EntryEditView extends View {
 		`
 	}
 
+	transitionIn(delay=1000) {
+		setTimeout(() => {
+			const entry = document.querySelector('.entry')
+			entry.classList.toggle('invisible');
+		},delay)
+
+	}
+
+	transitionOut(delay=1000) {
+		setTimeout(() => {
+			const entry = document.querySelector('.entry')
+			entry.classList.toggle('invisible');
+		},delay)
+	}
+
 	deleteEntry(handler) {
 		console.log('entryEditView.deleteEntry()')
 		handler(this._data.entry.id);
 	}
-
 
 	addListenerToggleView(handler) {
 		const btn = document.querySelector("[data-btn='toggleView']");
@@ -53,7 +67,6 @@ class EntryEditView extends View {
 			handlers(this._data.entry.id, values);
 		});
 	};
-
 }
 
 export default new EntryEditView()

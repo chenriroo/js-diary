@@ -46,13 +46,18 @@ class SettingsMenu extends View {
 	}
 
 	transitionIn() {
-		this._overlay.classList.toggle('overlay--visible');
-		this._settings.classList.toggle('settings--visible');
+		setTimeout(() => {
+			this._overlay.classList.toggle('overlay--visible');
+			this._settings.classList.toggle('settings--visible');
+		},1)
+
 	}
 
 	transitionOut() {
-		this._overlay.classList.toggle('overlay--visible')
-		this._settings.classList.toggle('settings--visible');
+		setTimeout(() => {
+			this._overlay.classList.toggle('overlay--visible')
+			this._settings.classList.toggle('settings--visible');
+		},1)
 	}
 
 	remove() {

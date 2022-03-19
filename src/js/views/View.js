@@ -11,7 +11,7 @@ class View {
 		
 		if(!render) return markup
 		if(!popup) this.clearHTML();
-		this._parentElement.insertAdjacentHTML('afterbegin', markup);
+		this._parentElement.insertAdjacentHTML('beforeend', markup);
 	}
 
 	selectEl(selector) {

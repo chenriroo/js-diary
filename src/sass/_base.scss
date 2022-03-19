@@ -51,5 +51,9 @@ a {
 }
 
 .hidden {
-	display: none;
+	display:none !important;
+}
+
+.invisible {
+	opacity: 0 !important;
 }

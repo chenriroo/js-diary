@@ -13,7 +13,7 @@ const controllerDisplayHome = async () => {
 	await model.getEntries('paginate');
 	HomeView.render(model.state.homeEntries);
 	HomeView.addListenerCreateEntry({
-		createEntry: handleCreateEntryHome,
+		createEntry: handleCreateEntry,
 		deleteEntry: handleDeleteEntry,
 		updateEntry: handleUpdateEntry,
 	});
@@ -21,15 +21,10 @@ const controllerDisplayHome = async () => {
 
 
 // Datepicker: Pick year & month
-const handleSetupDatepicker = async() => {
-	const years = await model.getYears();
-	DatePicker.render(years);
-
-	// Check if we should remwove the listener maybe?
-	DatePicker.addListener({
-		yearSelection: handleGetEntries,
-		monthSelection: handleGetEntries,
-	})
+const handleDatepicker = async() => {
+	DatePicker.render();
+	DatePicker.populateYears();
+	DatePicker.addListenerDateSelection(handleGetEntries);
 }
 
 // Display entries based on year & month selection
@@ -51,8 +46,7 @@ const handleGetEntries = async (input, reload=false) => {
 
 
 // Display entry, take in from state: [curEntries] or [homeEntries]
-const handleDisplayEntry = async () => {
-
+const handleDisplayEntry = async (id=undefined) => {
 	const hash = window.location.hash.slice(1)
 	if(!hash) return
 
@@ -61,37 +55,33 @@ const handleDisplayEntry = async () => {
 	//console.log(model.state.curEntry)
 
 	if(model.state.modes.editMode) {
-		EntryEdit.render({entry: model.state.curEntry});
+		EntryEdit.render({
+			entry: model.state.curEntry,
+			edit: true 
+		}, true);
 		EntryEdit.addListenerToggleView(handleToggleView);
 		EntryEdit.addListenerDelete(handleDeleteEntry);
 		EntryEdit.addListenerUpdate(handleUpdateEntry);
+		EntryEdit.transitionIn();
 	} else {
-		EntryView.render({entry: model.state.curEntry})
+		EntryView.render({
+			entry: model.state.curEntry,
+			edit: false
+		},true);
 		EntryView.addListenerToggleView(handleToggleView);
 		EntryView.addListenerDelete(handleDeleteEntry);
+		EntryView.transitionIn();
 	}
 
 }
 
-// Creating new entries in succession too fast sometimes results in error? Add delay?
-// New entry date based on current selected date year/month thus select day. also an option for current date
-const handleCreateEntry = async () => {
-	console.log(model.state.curDate) // For creating entries at chosen date (low priority)
-	await model.createEntry();	
-	model.toggleEditMode();
-	//console.log(model.state.curEntry)
-
-	//await handleDisplayEntry(model.state.curEntry.id); // JSON API autoincrements ID, get last from array.
-}
-
 // Creates new entry from the 'Home' page; refactor duplicate
-const handleCreateEntryHome = async () => {
+const handleCreateEntry = async () => {
 	await model.createEntry();
 	model.toggleEditMode();
-
+	handleDisplayEntry
 	return model.state.curEntry
 }
-
 
 // Entry functions
 //-----------------------------------------------
@@ -99,18 +89,30 @@ const handleToggleView = (isEditMode) => {
 	model.toggleEditMode(isEditMode);
 
 	if(model.state.modes.editMode) {
-		EntryEdit.render({entry: model.state.curEntry});
+		EntryEdit.render({
+			entry: model.state.curEntry,
+			edit: true 
+		}, true);
 		EntryEdit.addListenerToggleView(handleToggleView);
 		EntryEdit.addListenerDelete(handleDeleteEntry);
 		EntryEdit.addListenerUpdate(handleUpdateEntry);
+
+		EntryEdit.assignVariables();
+		EntryEdit.transitionIn();
 	} else {
-		EntryView.render({entry: model.state.curEntry})
+		EntryView.render({
+			entry: model.state.curEntry,
+			edit: false
+		},true);
 		EntryView.addListenerToggleView(handleToggleView);
 		EntryView.addListenerDelete(handleDeleteEntry);
+		EntryView.assignVariables();
+		//EntryView.transitionIn();
 	}
 }
 
-const handleDeleteEntry = async (id) => {
+const handleDeleteEntry = async (e, id) => {
+	
 	await model.deleteEntry(id);
 
 }
@@ -129,7 +131,7 @@ const handleUpdateEntry = async (id, data) => {
 // Sidebar
 //-----------
 const controllerDisplayEntries = () => {
-	Sidebar.toggleDisplay();
+	Sidebar.toggleVisible();
 }
 
 
@@ -144,9 +146,7 @@ const controllerDisplaySettings = (exists) => {
 	} else {
 		Settings.render(model.state.settings, true, true);
 		Settings.assignVariables();
-		setTimeout(() => {
-			Settings.transitionIn();
-		}, 50);
+		Settings.transitionIn();
 		Settings.addListener({
 			close: controllerDisplaySettings,
 			setting: controllerModifySetting
@@ -168,7 +168,7 @@ const controllerModifySetting = (setting) => {
 
 
 const init = () => {
-	handleSetupDatepicker();
+	handleDatepicker();
 	controllerDisplayHome()
 	BottomNav.addListener({
 		home: controllerDisplayHome,

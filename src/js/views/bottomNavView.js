@@ -6,7 +6,7 @@ class BottomNav extends View {
 	
 	addListener(handler) {
 		this._parentElement.addEventListener('click', e => {
-			e.preventDefault()
+			//e.preventDefault()
 			const el = e.target;
 
 			if(el.textContent === 'Home') {

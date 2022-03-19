@@ -6,7 +6,6 @@ export const state = {
 		year: '',
 		month: ''
 	},
-	homeEntries: [],
 	curEntries: [],
 	curEntry: {},
 	modes: {
@@ -15,15 +14,6 @@ export const state = {
 	settings: {
 		theme: 'basic-light',
 		entrySize: 'small',
-	}
-}
-// Retrieves years for display in datepicker
-export const getYears = async () => {
-	try {
-		const years = await AJAX('http://localhost:5000/years');
-		return years
-	} catch (err) {
-		console.log(err)
 	}
 }
 

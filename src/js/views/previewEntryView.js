@@ -23,7 +23,7 @@ class PreviewEntryView extends View {
 		}
 
 		return `
-			<a class="entryPreview ${cssClass}" href="/#${entry.id}">
+			<a class="entryPreview ${cssClass}" href="#${entry.id}">
 				<div class="entryPreview__day">
 					<span>${day}</span>
 				</div>
@@ -31,7 +31,6 @@ class PreviewEntryView extends View {
 					<span class="entryPreview__time">${entry.time}</span>
 					<span class="entryPreview__content">${content}</span>
 				</div>
-
 			</a>
 		`
 	}

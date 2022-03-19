@@ -6,16 +6,16 @@ const timeout = function(timeSeconds) {
 	})
 }
 
-export const AJAX = async function (url, inputData=undefined)  {
+export const AJAX = async function (url, input=undefined)  {
 	try {
 		let fetchPro
-		if(inputData) {
+		if(input) {
 			fetchPro = fetch(url, {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
 				},
-				body: JSON.stringify(inputData)
+				body: JSON.stringify(input)
 			});
 		} else {
 			fetchPro = fetch(url)

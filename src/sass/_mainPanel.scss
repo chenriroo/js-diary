@@ -4,22 +4,20 @@
 	flex-flow: row;
 	justify-content: center;
 	background-color: rgb(235, 235, 235);
+	background-image: url("data:image/svg+xml,%3Csvg width='52' height='26' viewBox='0 0 52 26' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23cacaca' fill-opacity='0.4'%3E%3Cpath d='M10 10c0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6h2c0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4 3.314 0 6 2.686 6 6 0 2.21 1.79 4 4 4v2c-3.314 0-6-2.686-6-6 0-2.21-1.79-4-4-4-3.314 0-6-2.686-6-6zm25.464-1.95l8.486 8.486-1.414 1.414-8.486-8.486 1.414-1.414z' /%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
 }
 
 .entry {
 	display: flex;
 	flex-flow: column;
-	background-color: rgb(255, 255, 255);
-	width: 70rem;
+	width: 90%;
+	max-width: 70rem;
 	padding: 4rem;
 	margin: 2rem 0 2rem 0;
+	background-color: rgb(255, 255, 255);
 	box-shadow: 0 0 10px 0 rgb(220, 220, 220);
 	opacity: 1;
-	transition: opacity 0.2s ease-in;
-
-	&--inset {
-		box-shadow: none;
-	}
+	transition: opacity 0.2s ease-in 200ms;
 
 	&__settings {
 		display: flex;

@@ -36,38 +36,9 @@
 
 }
 
-.form__radio {
-
-	&--year {
-		display: none;
-		
-		&:hover + label {
-			background-color: rgba(210, 235, 255, 0.40);
-			border-radius: 4px; 
-		}
-
-		&:checked + label {
-			background-color: rgba(210, 235, 255, 0.80);
-			border-radius: 4px; 
-			
-		}
-
-	}
-
-	&--month {
-		display: none;
-
-		&:hover +label {
-			background-color: rgba(210, 235, 255, 0.40);
-			border-radius: 4px; 
-		}
-
-		&:checked + label {
-			background-color: rgba(210, 235, 255, 0.80);
-			border-radius: 4px;
-		}
-
-	}
+.form__select {
+	padding: 1rem;
+	
 }
 
 .form__label {
@@ -77,11 +48,6 @@
 		padding: 2rem;
 		text-align: center;
 		&:hover { cursor: pointer; }
-
-		@include respond(desktop) {
-			padding: 1rem;
-			margin: 0.5rem;
-		}
 	}
 
 	&--year {
@@ -90,12 +56,6 @@
 		text-align: center;
 		line-height: 3rem;
 		&:hover { cursor: pointer; }
-
-		@include respond(desktop) {
-			line-height: 2rem;
-			padding: 1rem;
-			margin: 0.5rem;
-		}
 	}
 }
 

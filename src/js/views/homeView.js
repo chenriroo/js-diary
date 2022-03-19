@@ -1,5 +1,4 @@
 import View from './View';
-import PreviewEntry from './previewEntryView';
 import EntryEdit from './entryEditView';
 
 class HomeView extends View {
@@ -13,58 +12,36 @@ class HomeView extends View {
 		//console.log(this._data)
 		return `
 			<div class="home">
-				<div class="home__new-entry">
-					<div class="block block--centered" data-home="newEntryBox">
-						${this._htmlBlock}
-					</div>
-				</div>
-
-				<div role="navigation" class="home__recent-entries">					
-					${this._data.map(entry => PreviewEntry.render([entry, 'home'], false)).join('')}
+				<div class="block block--centered">
+					${this._htmlBlock}
 				</div>
 			</div>
 		`
 	}
 
 	expandNote(handlers) {
-		const elEntry = document.querySelector('.home__new-entry');
-		const entries = document.querySelector('.home__recent-entries');
-		const newEntryBox = document.querySelector("[data-home='newEntryBox']");
-		
-		let entry;
-		let markup;
-
-		const text = document.querySelector('h1'); // ?specificity?
-		const btn = document.querySelector("[data-button='home-newEntry']");
-
-		text.classList.toggle('invisible');
-		btn.classList.toggle('invisible');
-
-		elEntry.classList.toggle('home__new-entry--expanded');
-		newEntryBox.classList.toggle('block--expand');
-		entries.classList.toggle('home__recent-entries--shrink');
+		//console.log(handlers)
+		const home = document.querySelector('.home')
+		home.classList.toggle('invisible')
 
 		setTimeout(() => {
 			handlers.createEntry()
 			.then(curEntry => { // entry object: date,content,id
-				markup = EntryEdit.render({entry: curEntry}, false);
-				newEntryBox.insertAdjacentHTML('afterbegin', markup);
-				document.querySelector("[data-btn='toggleView']").remove();
-				entry = document.querySelector('.entry');
-				entry.classList.add('invisible', 'entry--inset');
+				const markup = EntryEdit.render({entry: curEntry}, false);
+				this._parentElement.insertAdjacentHTML('afterbegin', markup);
+				document.querySelector('.entry').classList.add("invisible");
+				EntryEdit.transitionIn(1);
 
 				this.addListenerDelete(curEntry.id, handlers);
 				EntryEdit.addListenerUpdate(handlers.updateEntry);
 			})
 			.catch(err => console.log(err, 'when creating new entry'));
-		},300)
+		},100)
 
 		
 		setTimeout(() => {
-			btn.remove();
-			text.remove();
-			entry.classList.toggle('invisible');
-		},500);
+			home.remove();
+		},150);
 	};
 
 	deleteEntry(id, handlers) {
@@ -75,8 +52,6 @@ class HomeView extends View {
 
 	resetLayout(handlers) {
 		const elEntry = document.querySelector('.home__new-entry');
-		const newEntryBox = document.querySelector("[data-home='newEntryBox']");
-		const entries = document.querySelector('.home__recent-entries');
 		const entry = document.querySelector('.entry')
 
 		entry.classList.toggle('invisible');
@@ -84,7 +59,6 @@ class HomeView extends View {
 			entry.remove();
 			elEntry.classList.toggle('home__new-entry--expanded');
 			newEntryBox.classList.toggle('block--expand');
-			entries.classList.toggle('home__recent-entries--shrink');
 
 			newEntryBox.insertAdjacentHTML('afterbegin', this._htmlBlock);
 			const btn = document.querySelector("[data-button='home-newEntry']");
@@ -107,13 +81,14 @@ class HomeView extends View {
 	addListenerViewEntry(handler) {
 		const element = document.querySelector('.home__recent-entries');
 		element.addEventListener('click', e => {
+			e.preventDefault();
 			let targetEl = e.target;
 			if(targetEl.tagName === 'DIV') targetEl = targetEl.parentNode;
 			if(targetEl.tagName === 'SPAN') targetEl = targetEl.parentNode.parentNode;
 			if(targetEl.tagName !== 'A') return
 
-			const hash = targetEl.hash.substr(1,1);
-			handler(hash, 'homeEntries');
+			// const hash = targetEl.hash.substr(1,1);
+			// handler(hash, 'homeEntries');
 		});
 	}
 }
