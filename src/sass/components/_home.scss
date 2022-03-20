@@ -1,17 +1,8 @@
-.home {
+.block {
+	flex: 0 0 30rem;
 	display: flex;
-	flex-flow: column;
 	justify-content: center;
 	align-items: center;
-	width: 100%;
-	opacity: 1;
-	transition: opacity 0.1s ease-in;
-}
-
-.block {
-	flex: 0 0 20rem;
-	display: flex;
-	justify-content: center;
 	flex-flow: column;
 	height: 20rem;
 	padding: 2rem;

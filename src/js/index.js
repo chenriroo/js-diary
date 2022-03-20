@@ -10,8 +10,7 @@ import HomeView from './views/homeView';
 
 
 const controllerDisplayHome = async () => {
-	await model.getEntries('paginate');
-	HomeView.render(model.state.homeEntries);
+	HomeView.render();
 	HomeView.addListenerCreateEntry({
 		createEntry: handleCreateEntry,
 		deleteEntry: handleDeleteEntry,
@@ -19,13 +18,11 @@ const controllerDisplayHome = async () => {
 	});
 }
 
-
-// Datepicker: Pick year & month
-const handleDatepicker = async() => {
-	DatePicker.render();
-	DatePicker.populateYears();
-	DatePicker.addListenerDateSelection(handleGetEntries);
+const controllerUpdateDate = (input) => {
+	model.storeDateSelection(input)
+	console.log(model.state.curDate);
 }
+
 
 // Display entries based on year & month selection
 // arg reload: no new date/data (when changing entrySize in settings)
@@ -46,13 +43,16 @@ const handleGetEntries = async (input, reload=false) => {
 
 
 // Display entry, take in from state: [curEntries] or [homeEntries]
-const handleDisplayEntry = async (id=undefined) => {
-	const hash = window.location.hash.slice(1)
-	if(!hash) return
+const handleDisplayEntry = async (e, id=undefined) => {
+	if(!id) {
+		console.log('id=undefined, using hash')
+		const hash = window.location.hash.slice(1)
+		if(!hash) return
+	
+		await model.getEntry(hash);
+	} 
 
-	await model.getEntry(hash);
-
-	//console.log(model.state.curEntry)
+	console.log('Retrieving entry via passed in id:', id)
 
 	if(model.state.modes.editMode) {
 		EntryEdit.render({
@@ -75,11 +75,10 @@ const handleDisplayEntry = async (id=undefined) => {
 
 }
 
-// Creates new entry from the 'Home' page; refactor duplicate
+
 const handleCreateEntry = async () => {
 	await model.createEntry();
-	model.toggleEditMode();
-	handleDisplayEntry
+	model.toggleEditMode(true);
 	return model.state.curEntry
 }
 
@@ -111,10 +110,10 @@ const handleToggleView = (isEditMode) => {
 	}
 }
 
-const handleDeleteEntry = async (e, id) => {
-	
+const handleDeleteEntry = async (id) => {
 	await model.deleteEntry(id);
 
+	controllerDisplayHome();
 }
 
 const handleUpdateEntry = async (id, data) => {
@@ -168,8 +167,13 @@ const controllerModifySetting = (setting) => {
 
 
 const init = () => {
-	handleDatepicker();
+	DatePicker.render();
+	DatePicker.populateYears();
+	DatePicker.addListenerDateSelection(controllerUpdateDate);
+
 	controllerDisplayHome()
+	Sidebar.addListenerToggleView();
+	Sidebar.addListenerDragResize();
 	BottomNav.addListener({
 		home: controllerDisplayHome,
 		entries: controllerDisplayEntries,

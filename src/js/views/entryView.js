@@ -4,7 +4,7 @@ class EntryView extends View {
 	_parentElement = document.querySelector('.main');
 
 	HTML() {
-		const content = this._data.entry.content.replaceAll('\n','<br/>')
+		const content = 'aaa'//this._data.entry.content.replaceAll('\n','<br/>')
 
 		const view = `
 		<div class="entry entry__view">
@@ -41,7 +41,7 @@ class EntryView extends View {
 	transitionIn(delay=1000) {
 		setTimeout(() => {
 			const entry = document.querySelector('.entry')
-			entry.classList.toggle('invisible');
+			entry.classList.remove('invisible');
 		},delay)
 
 	}
@@ -49,7 +49,7 @@ class EntryView extends View {
 	transitionOut(delay=1000) {
 		setTimeout(() => {
 			const entry = document.querySelector('.entry')
-			entry.classList.toggle('invisible');
+			entry.classList.add('invisible');
 		},delay)
 	}
 

@@ -8,14 +8,22 @@
 	color: black;
 	background-color: rgb(245, 245, 245);
 	box-shadow: 0 0 10px 0 rgb(220, 220, 220);
-	transition: height 0.1s ease-in, border-top 0.2s;
-	border-top: 4px solid rgba(118, 178, 228, 0.5);
-	border-radius: 5px;
-	
+	transition: height 0.1s;
 
 	&--collapse {
-		border-top: 20px solid rgba(118, 178, 228, 0.5);;
 		height: 1%;
+	}
+
+	&__edge {
+		height: 5px;
+		outline: 0;
+		transition: all 0.1s;
+		background-color: rgba(118, 178, 228, 0.5);
+
+		&:hover {
+			height: 10px;
+			outline: 8px solid rgba(118, 178, 228, 0.5);
+		}
 	}
 
 	&__date {
@@ -24,10 +32,6 @@
 		flex-flow: row;
 		padding: 0rem 0;
 		border-bottom: 2px solid rgb(240, 240, 240);
-
-		@include respond(desktop) {
-			
-		}
 	}
 
 

@@ -54,6 +54,15 @@ class DatePicker extends View {
 		const inputYear = document.querySelector('.datepicker-year');
 		const inputMonth = document.querySelector('.datepicker-month');
 
+		this._parentElement.addEventListener('click', e => {
+			const el = e.target
+			if(el == inputYear) handler(['year', el.value]);
+			if(el == inputMonth) handler(['month', el.value]);
+			return
+		});
+
+
+
 		console.log(inputYear.value, inputMonth.value)
 	}
 

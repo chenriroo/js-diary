@@ -96,36 +96,33 @@ export const getEntry = async (id) => {
 
 export const toggleEditMode = (isEditMode) => {
 	isEditMode ? state.modes.editMode = true : state.modes.editMode = false;
-	return
 }
 
 export const createEntry = async () => {
-	let objNewEntry = {
-		date: new Date(),
-		content: '',
+	try {
+		let objNewEntry = {
+			date: new Date(),
+			content: '',
+		}
+	
+		let foo = await AJAX(`http://localhost:5000/entries/`, objNewEntry)
+	
+		const [date, time] = formatTime(foo.date)
+	
+		const outputEntry = {
+			id: foo.id,
+			date: date,
+			time: time,
+			content: foo.content
+		};
+		state.curEntry = outputEntry;
+
+	} catch(err) {
+		console.log(err)
 	}
-
-	let foo = await AJAX(`http://localhost:5000/entries/`, objNewEntry)
-
-	const [date, time] = formatTime(foo.date)
-
-	const outputEntry = {
-		id: foo.id,
-		date: date,
-		time: time,
-		content: foo.content
-	};
-	addYear(date, time)
-
-	state.curEntry = outputEntry;
-	return
 }
 
-// When adding an new entry, checks if the year exists in the db.
-// Add the year if needed
-const addYear = async (date, time) => {
-	console.log(date, time);
-}
+
 
 const updateStateCurEntry = (arrData) => {
 	const newCurEntry = {
@@ -174,8 +171,8 @@ export const deleteEntry = async (id) => {
 
 
 export const storeDateSelection = (input) => {
-	if(input.type === 'year') state.curDate.year = input.input;
-	if(input.type === 'month') state.curDate.month = input.input;
+	if(input[0] === 'year') state.curDate.year = input[1];
+	if(input[0] === 'month') state.curDate.month = input[1];
 	return
 }
 
