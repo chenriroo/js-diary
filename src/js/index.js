@@ -42,15 +42,29 @@ const controlGetEntries = async (input, reload=false) => {
 
 	await model.getEntries('date', model.state.curDate)
 
-	const arrEntries = model.state.curEntries
+	const arr1 = [];
+	const arr2 = [];
+	const arr3 = [];
+	const arr4 = [];
+	const arr5 = [];
 
-	let arr1 = [];
-	let arr2 = [];
-	let arr3 = [];
-	let arr4 = [];
-	let arr5 = [];
+	const existingDays = new Set(model.state.curEntries.map(entry => entry.day))
+	let arrPlaceholders = []
+
+	for(let i=1; i<32; i++) {
+		if(existingDays.has(i)) continue
+		arrPlaceholders.push({
+			id: 'create-new',
+			day: i,
+			date: '',
+			time: '',
+			content: ''
+		});
+	};
+	arrPlaceholders = arrPlaceholders.concat(model.state.curEntries)
+	arrPlaceholders.sort((a, b) => a.day - b.day)
 	
-	arrEntries.forEach(entry => {
+	arrPlaceholders.forEach(entry => {
 		if(entry.day <= 7) arr1.push(entry)
 		if(entry.day > 7 && entry.day <= 14) arr2.push(entry)
 		if(entry.day > 14 && entry.day <= 21) arr3.push(entry)
@@ -59,8 +73,7 @@ const controlGetEntries = async (input, reload=false) => {
 	})
 
 	Entries.render({
-		entries: [arr1,arr2,arr3,arr4,arr5],
-		entrySize: model.state.settings.entrySize
+		entries: [arr1,arr2,arr3,arr4,arr5]
 	})
 }
 

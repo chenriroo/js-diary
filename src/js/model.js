@@ -31,10 +31,10 @@ export const getEntries = async (type, inputDate) => {
 		}
 		
 		const arrEntries = fetchedEntries.map(entry => {
-			const [date,time,day] = formatTime(entry.date)
+			const [date,time,day] = createFormatTime(entry.date)
 			return { 
 				id: entry.id,
-				day: day,
+				day: parseInt(day),
 				date: date,
 				time: time,
 				content: entry.content
@@ -49,19 +49,20 @@ export const getEntries = async (type, inputDate) => {
 }
 
 
-const formatTime = (input) => {
+const createFormatTime = (input) => {
 	const objDate = new Date(input)
 	const year = objDate.getFullYear();
 	let month = objDate.getMonth() + 1;
 	let day = objDate.getDate();
-	const hour = objDate.getHours();
-	const minutes = objDate.getMinutes();
+	let hour = objDate.getHours();
+	let minutes = objDate.getMinutes();
 
+	// adding zeroes; double digits required
 	if(month < 10) month = `0${month}`;
 	if(day < 10) day = `0${day}`;
+	if(hour < 10) hour = `0${hour}`
+	if(minutes <10) minutes = `0${minutes}`
 
-	// Same for the time: 1:00 should be 01:10  - double digits
-	
 	const date = `${year}-${month}-${day}`
 	const time = `${hour}:${minutes}`
 
@@ -69,7 +70,7 @@ const formatTime = (input) => {
 }
 
 const createEntryObject = (data) => {
-		const [date, time] = formatTime(data.date)
+		const [date, time] = createFormatTime(data.date)
 
 		const objEntry = {
 			id: data.id,
@@ -106,7 +107,7 @@ export const createEntry = async () => {
 	
 		let foo = await AJAX(`http://localhost:5000/entries/`, objNewEntry)
 	
-		const [date, time] = formatTime(foo.date)
+		const [date, time] = createFormatTime(foo.date)
 	
 		const outputEntry = {
 			id: foo.id,

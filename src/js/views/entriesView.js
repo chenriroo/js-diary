@@ -14,23 +14,23 @@ class Entries extends View {
 	HTML() {
 		return `
 			<div class="entries__column">
-				${this._data.entries[0].map(entry => PreviewEntry.render([entry, this._data.entrySize], false)).join('')}
+				${this._data.entries[0].map(entry => PreviewEntry.render(entry, false)).join('')}
 			</div>
 
 			<div class="entries__column">
-				${this._data.entries[1].map(entry => PreviewEntry.render([entry, this._data.entrySize], false)).join('')}
+				${this._data.entries[1].map(entry => PreviewEntry.render(entry, false)).join('')}
 			</div>
 
 			<div class="entries__column">
-				${this._data.entries[2].map(entry => PreviewEntry.render([entry, this._data.entrySize], false)).join('')}
+				${this._data.entries[2].map(entry => PreviewEntry.render(entry, false)).join('')}
 			</div>
 
 			<div class="entries__column">
-				${this._data.entries[3].map(entry => PreviewEntry.render([entry, this._data.entrySize], false)).join('')}
+				${this._data.entries[3].map(entry => PreviewEntry.render(entry, false)).join('')}
 			</div>
 
 			<div class="entries__column">
-				${this._data.entries[4].map(entry => PreviewEntry.render([entry, this._data.entrySize], false)).join('')}
+				${this._data.entries[4].map(entry => PreviewEntry.render(entry, false)).join('')}
 			</div>
 			`
 	}
