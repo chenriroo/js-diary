@@ -13,16 +13,17 @@
 	&--collapse {
 		height: 1%;
 	}
-
+	
+	// Edge disappears when sidebar height < 35% 
 	&__edge {
-		height: 5px;
+		height: 6px;
 		outline: 0;
 		transition: all 0.1s;
-		background-color: rgba(118, 178, 228, 0.5);
+		background-color: rgba(118, 178, 228, 0.4);
 
 		&:hover {
-			height: 10px;
-			outline: 8px solid rgba(118, 178, 228, 0.5);
+			height: 6px;
+			//outline: 1px solid rgba(118, 178, 228, 0.5);
 		}
 	}
 
@@ -34,21 +35,27 @@
 		border-bottom: 2px solid rgb(240, 240, 240);
 	}
 
-
 	&__entries {
-		flex: 1 0 30rem;
-		overflow: hidden;
-
-		@include respond(desktop) {
-			flex: 1;
-		}
+		flex: 1;
 	}
 }
 
 .entries {
-	&__list {
-		list-style: none;
+	display: flex;
+	flex-flow: column;
+	justify-content: center;
+	width: 100%;
+	overflow-y: scroll;
+
+	@include respond(tablet-land) {
+		flex-flow: row;
 	}
+
+	&__column {
+		flex: 0 0 15rem;
+	}
+
+
 
 	&__item {
 		list-style: none;

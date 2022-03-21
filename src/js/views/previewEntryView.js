@@ -3,6 +3,8 @@ import View from "./View";
 class PreviewEntryView extends View {
 
 	HTML() {
+		//console.log(this._data)
+
 		const [entry, entrySize] = this._data;
 		let day;
 		let content;

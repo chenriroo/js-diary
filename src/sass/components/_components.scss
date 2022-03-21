@@ -44,7 +44,7 @@
 	border-radius: 4px;
 	box-shadow: 0 0 10px 0 rgb(220 220 220);
 
-	@include respond(desktop) {
+	@include respond(tablet-land) {
 		padding: 1rem;
 	}
 

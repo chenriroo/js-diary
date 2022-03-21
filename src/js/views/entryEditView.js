@@ -6,7 +6,7 @@ class EntryEditView extends View {
 	HTML() {
 		console.log(this._data)
 		return `
-			<div class="entry entry__edit">
+			<div class="entry entry__edit invisible">
 
 				<div class="entry__settings">
 					<button class="btn" data-btn="toggleView">View</button>

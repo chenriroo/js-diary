@@ -4,10 +4,10 @@ class EntryView extends View {
 	_parentElement = document.querySelector('.main');
 
 	HTML() {
-		const content = 'aaa'//this._data.entry.content.replaceAll('\n','<br/>')
+		const content = this._data.entry.content.replaceAll('\n','<br/>')
 
 		const view = `
-		<div class="entry entry__view">
+		<div class="entry entry__view invisible">
 			<div class="entry__settings">
 				<button class="btn">Edit</button>
 				<button class="btn">Delete</button>

@@ -1,6 +1,8 @@
 .form {
+	flex:1;
 	display: flex;
 	flex-flow: column;
+
 
 	&__date {
 		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -60,10 +62,11 @@
 }
 
 .form__textarea {
-	height: 20rem;
+	height: 100%;
 	padding: 1rem;
 	font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 	border: 0;
+	resize: none;
 
 	&:focus { border: 0; outline: 0; }
 }

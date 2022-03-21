@@ -9,7 +9,7 @@ import EntryEdit from './views/entryEditView';
 import HomeView from './views/homeView';
 
 
-const controllerDisplayHome = async () => {
+const controlDisplayHome = async () => {
 	HomeView.render();
 	HomeView.addListenerCreateEntry({
 		createEntry: handleCreateEntry,
@@ -18,31 +18,52 @@ const controllerDisplayHome = async () => {
 	});
 }
 
-const controllerUpdateDate = (input) => {
+const controlDatepicker = (input) => {
 	model.storeDateSelection(input)
-	console.log(model.state.curDate);
+	
+	if(!model.state.curDate.year) return
+	if(!model.state.curDate.month) return
+
+	controlGetEntries();
+	//console.log(model.state.curDate)
 }
 
 
 // Display entries based on year & month selection
 // arg reload: no new date/data (when changing entrySize in settings)
-const handleGetEntries = async (input, reload=false) => {
+const controlGetEntries = async (input, reload=false) => {
 
-	if(!reload) {
-		model.storeDateSelection(input) // input year & month
-		if(model.state.curDate.year === '' || model.state.curDate.month === '') return
+	// if(!reload) {
+	// 	model.storeDateSelection(input) // input year & month
+	// 	if(model.state.curDate.year === '' || model.state.curDate.month === '') return
 		
-		await model.getEntries('date', model.state.curDate)
-	}
+	// 	await model.getEntries('date', model.state.curDate)
+	// }
+
+	await model.getEntries('date', model.state.curDate)
+
+	const arrEntries = model.state.curEntries
+
+	let arr1 = [];
+	let arr2 = [];
+	let arr3 = [];
+	let arr4 = [];
+	let arr5 = [];
+	
+	arrEntries.forEach(entry => {
+		if(entry.day <= 7) arr1.push(entry)
+		if(entry.day > 7 && entry.day <= 14) arr2.push(entry)
+		if(entry.day > 14 && entry.day <= 21) arr3.push(entry)
+		if(entry.day > 21 && entry.day <= 28) arr4.push(entry)
+		if(entry.day > 28) arr5.push(entry)
+	})
 
 	Entries.render({
-		entries: model.state.curEntries,
+		entries: [arr1,arr2,arr3,arr4,arr5],
 		entrySize: model.state.settings.entrySize
 	})
 }
 
-
-// Display entry, take in from state: [curEntries] or [homeEntries]
 const handleDisplayEntry = async (e, id=undefined) => {
 	if(!id) {
 		console.log('id=undefined, using hash')
@@ -50,9 +71,9 @@ const handleDisplayEntry = async (e, id=undefined) => {
 		if(!hash) return
 	
 		await model.getEntry(hash);
-	} 
-
-	console.log('Retrieving entry via passed in id:', id)
+	} else {
+		console.log('Retrieving entry via passed in id:', id)
+	}
 
 	if(model.state.modes.editMode) {
 		EntryEdit.render({
@@ -62,7 +83,7 @@ const handleDisplayEntry = async (e, id=undefined) => {
 		EntryEdit.addListenerToggleView(handleToggleView);
 		EntryEdit.addListenerDelete(handleDeleteEntry);
 		EntryEdit.addListenerUpdate(handleUpdateEntry);
-		EntryEdit.transitionIn();
+		EntryEdit.transitionIn(1);
 	} else {
 		EntryView.render({
 			entry: model.state.curEntry,
@@ -70,16 +91,16 @@ const handleDisplayEntry = async (e, id=undefined) => {
 		},true);
 		EntryView.addListenerToggleView(handleToggleView);
 		EntryView.addListenerDelete(handleDeleteEntry);
-		EntryView.transitionIn();
+		EntryView.transitionIn(1);
 	}
 
 }
 
-
 const handleCreateEntry = async () => {
 	await model.createEntry();
 	model.toggleEditMode(true);
-	return model.state.curEntry
+	handleDisplayEntry(undefined, model.state.curEntry.id);
+	return
 }
 
 // Entry functions
@@ -95,9 +116,7 @@ const handleToggleView = (isEditMode) => {
 		EntryEdit.addListenerToggleView(handleToggleView);
 		EntryEdit.addListenerDelete(handleDeleteEntry);
 		EntryEdit.addListenerUpdate(handleUpdateEntry);
-
-		EntryEdit.assignVariables();
-		EntryEdit.transitionIn();
+		EntryEdit.transitionIn(1);
 	} else {
 		EntryView.render({
 			entry: model.state.curEntry,
@@ -105,15 +124,14 @@ const handleToggleView = (isEditMode) => {
 		},true);
 		EntryView.addListenerToggleView(handleToggleView);
 		EntryView.addListenerDelete(handleDeleteEntry);
-		EntryView.assignVariables();
-		//EntryView.transitionIn();
+		EntryView.transitionIn(1);
 	}
 }
 
 const handleDeleteEntry = async (id) => {
 	await model.deleteEntry(id);
 
-	controllerDisplayHome();
+	controlDisplayHome();
 }
 
 const handleUpdateEntry = async (id, data) => {
@@ -157,7 +175,7 @@ const controllerDisplaySettings = (exists) => {
 const controllerModifySetting = (setting) => {
 	model.modifySetting(setting);
 	if(setting.setting === 'entrySize') {
-		handleGetEntries(undefined, true)
+		controlGetEntries(undefined, true)
 	}
 
 	if(setting.setting === 'theme') {
@@ -169,13 +187,13 @@ const controllerModifySetting = (setting) => {
 const init = () => {
 	DatePicker.render();
 	DatePicker.populateYears();
-	DatePicker.addListenerDateSelection(controllerUpdateDate);
+	DatePicker.addListenerDateSelection(controlDatepicker);
 
-	controllerDisplayHome()
+	controlDisplayHome()
 	Sidebar.addListenerToggleView();
 	Sidebar.addListenerDragResize();
 	BottomNav.addListener({
-		home: controllerDisplayHome,
+		home: controlDisplayHome,
 		entries: controllerDisplayEntries,
 		settings: controllerDisplaySettings
 	});

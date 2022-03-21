@@ -26,22 +26,21 @@ class HomeView extends View {
 			home.remove();
 		},100);
 
-		setTimeout(() => {
-			handlers.createEntry() // handleCreateEntry()
-			.then(curEntry => { // entry object: date,content,id
-				const markup = EntryEdit.render({edit: true, entry: curEntry}, false);
-				this._parentElement.insertAdjacentHTML('afterbegin', markup);
-				document.querySelector('.entry').classList.add("invisible");
-				EntryEdit.transitionIn(1);
+		handlers.createEntry() // handleCreateEntry()
 
-				this.addListenerDelete(curEntry.id, handlers);
-				EntryEdit.addListenerUpdate(handlers.updateEntry);
-			})
-			.catch(err => console.log(err, 'when creating new entry'));
-		},100)
+		// Instead just call the handleCreateEntry() which calls handleDisplayEntry()
+		// Leaving this here incase i change my mind
 
-		
+		// .then(curEntry => { // entry object: date,content,id
+		// 	const markup = EntryEdit.render({edit: true, entry: curEntry}, false);
+		// 	this._parentElement.insertAdjacentHTML('afterbegin', markup);
+		// 	document.querySelector('.entry').classList.add("invisible");
+		// 	EntryEdit.transitionIn(1);
 
+		// 	this.addListenerDelete(curEntry.id, handlers);
+		// 	EntryEdit.addListenerUpdate(handlers.updateEntry);
+		// })
+		.catch(err => console.log(err, 'when creating new entry'));
 	};
 
 	addListenerDelete(id, handlers) {

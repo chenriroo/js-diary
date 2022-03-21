@@ -31,9 +31,10 @@ export const getEntries = async (type, inputDate) => {
 		}
 		
 		const arrEntries = fetchedEntries.map(entry => {
-			const [date,time] = formatTime(entry.date)
+			const [date,time,day] = formatTime(entry.date)
 			return { 
 				id: entry.id,
+				day: day,
 				date: date,
 				time: time,
 				content: entry.content
@@ -56,8 +57,6 @@ const formatTime = (input) => {
 	const hour = objDate.getHours();
 	const minutes = objDate.getMinutes();
 
-
-
 	if(month < 10) month = `0${month}`;
 	if(day < 10) day = `0${day}`;
 
@@ -66,7 +65,7 @@ const formatTime = (input) => {
 	const date = `${year}-${month}-${day}`
 	const time = `${hour}:${minutes}`
 
-	return [date, time];
+	return [date, time, day];
 }
 
 const createEntryObject = (data) => {
