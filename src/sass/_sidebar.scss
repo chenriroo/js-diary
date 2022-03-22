@@ -2,41 +2,49 @@
 	display: flex;
 	flex-flow: column;
 	position: fixed;
-	height: 70%;
+	max-height: 60%;
 	width: 100%;
 	bottom: 5rem;
 	color: black;
 	background-color: rgb(245, 245, 245);
-	box-shadow: 0 0 10px 0 rgb(220, 220, 220);
-	transition: height 0.1s;
+	box-shadow: 0 0 5px 0 rgb(220, 220, 220);
+	opacity: 1;
+	transition: opacity 0.3s ease-in, height 0.4s, max-height 0.4s;
 
-	&--collapse {
-		height: 1%;
-	}
-	
 	// Edge disappears when sidebar height < 35% 
 	&__edge {
-		height: 6px;
+		flex: 0 0 6px;
 		outline: 0;
 		transition: all 0.1s;
-		background-color: rgba(118, 178, 228, 0.4);
-
-		&:hover {
-			height: 6px;
-			//outline: 1px solid rgba(118, 178, 228, 0.5);
-		}
+		background-color: rgba(118, 178, 228, 0.2);
 	}
 
 	&__date {
 		flex: 0 0 10rem;
 		display: flex;
 		flex-flow: row;
-		padding: 0rem 0;
-		border-bottom: 2px solid rgb(240, 240, 240);
+		background-color: #f9f9f9;
+		box-shadow: 0 0 5px 0 gainsboro;
+		//border-bottom: 2px solid rgb(240, 240, 240);
 	}
 
 	&__entries {
 		flex: 1;
+		padding: 2rem 0;
+	}
+
+	&--collapse {
+		max-height:1%;
+		//height: 0;
+		opacity: 0;
+	}
+
+	@include respond(tablet-land) {
+		height: 60rem;
+
+		.sidebar--collapse {
+			height: 0;
+		}
 	}
 }
 
@@ -49,6 +57,7 @@
 
 	@include respond(tablet-land) {
 		flex-flow: row;
+		overflow: hidden;
 	}
 
 	&__column {

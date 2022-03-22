@@ -4,7 +4,7 @@ import PreviewEntry from "./previewEntryView";
 class Entries extends View {
 	_parentElement = this.selectEl('.sidebar__entries');
 
-	listenerCreateEntry(handler) {
+	addlistenerCreateEntry(handler) {
 		let el = document.querySelector('.btn--new-entry')
 		el.addEventListener('click', e => {
 			handler()

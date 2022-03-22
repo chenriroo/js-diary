@@ -3,7 +3,7 @@ import View from "./View";
 class PreviewEntryView extends View {
 
 	HTML() {
-		//console.log(this._data)
+		console.log(this._data)
 
 		return `
 			<a class="entryPreview" href="#${this._data.id}">

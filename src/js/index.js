@@ -25,21 +25,12 @@ const controlDatepicker = (input) => {
 	if(!model.state.curDate.month) return
 
 	controlGetEntries();
-	//console.log(model.state.curDate)
 }
 
 
 // Display entries based on year & month selection
 // arg reload: no new date/data (when changing entrySize in settings)
-const controlGetEntries = async (input, reload=false) => {
-
-	// if(!reload) {
-	// 	model.storeDateSelection(input) // input year & month
-	// 	if(model.state.curDate.year === '' || model.state.curDate.month === '') return
-		
-	// 	await model.getEntries('date', model.state.curDate)
-	// }
-
+const controlGetEntries = async (input, reload=false, empty=false) => {
 	await model.getEntries('date', model.state.curDate)
 
 	const arr1 = [];
@@ -61,6 +52,7 @@ const controlGetEntries = async (input, reload=false) => {
 			content: ''
 		});
 	};
+
 	arrPlaceholders = arrPlaceholders.concat(model.state.curEntries)
 	arrPlaceholders.sort((a, b) => a.day - b.day)
 	
@@ -75,6 +67,8 @@ const controlGetEntries = async (input, reload=false) => {
 	Entries.render({
 		entries: [arr1,arr2,arr3,arr4,arr5]
 	})
+
+	Entries.addlistenerCreateEntry(handleCreateEntry)
 }
 
 const handleDisplayEntry = async (e, id=undefined) => {
@@ -204,7 +198,6 @@ const init = () => {
 
 	controlDisplayHome()
 	Sidebar.addListenerToggleView();
-	Sidebar.addListenerDragResize();
 	BottomNav.addListener({
 		home: controlDisplayHome,
 		entries: controllerDisplayEntries,
@@ -214,5 +207,9 @@ const init = () => {
 
 init();
 
-window.addEventListener('hashchange', handleDisplayEntry);
+window.addEventListener('hashchange', (e) => {
+	const hash = window.location.hash.slice(1);
+	if(hash==='create-new') console.log('create new entry')
+	handleDisplayEntry()
+});
 window.addEventListener('load', handleDisplayEntry);

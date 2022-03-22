@@ -10,25 +10,6 @@ class SettingsMenu extends View {
 		return `
 			<div class="overlay"></div>
 			<div class="settings">
-
-			<div class="settings__block">
-				<p>Entry size: Datepicker</p>
-				<label for="entry-size-small">Small</label>
-				<input type="radio" id="entry-size-small" value="small" name="entry-size" 
-				${this._data.entrySize === 'small' ? 'checked' : ''}
-				>
-
-				<label for="entry-size-normal">Normal</label>
-				<input type="radio" id="entry-size-normal" value="normal" name="entry-size"
-				${this._data.entrySize === 'normal' ? 'checked' : ''}
-				>
-
-			</div>
-
-			<div class="settings__block">
-				Datepicker settings
-			</div>
-
 			<div class="settings__block">
 				<label for="theme-select">Theme</label>
 				<select name="theme" id="theme-select">
@@ -90,8 +71,6 @@ class SettingsMenu extends View {
 
 			handler.setting(input);
 		})
-
-
 	}
 }
 
