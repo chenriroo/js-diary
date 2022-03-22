@@ -14,13 +14,14 @@ class EntryEditView extends View {
 				</div>
 
 				<form class="form">
-					<input title="date" type="date" class="form__date" name="date" id="date" value="${this._data.entry.date}">
+					
 					<input title="time" type="time" class="form__time" name="time" id="time" value="${this._data.entry.time}">
 					<textarea title="content" class="form__textarea" id="content" name="content" placeholder="Dear diary...">${this._data.entry.content}</textarea>
 					<input type="submit" value="Apply">
 				</form>
 			</div>
 		`
+		//<input title="date" type="date" class="form__date" name="date" id="date" value="${this._data.entry.date}">
 	}
 
 	transitionIn(delay=1000) {
@@ -38,11 +39,6 @@ class EntryEditView extends View {
 		},delay)
 	}
 
-	deleteEntry(handler) {
-		console.log('entryEditView.deleteEntry()')
-		handler(this._data.entry.id);
-	}
-
 	addListenerToggleView(handler) {
 		const btn = document.querySelector("[data-btn='toggleView']");
 		btn.addEventListener('click', e => {
@@ -53,7 +49,7 @@ class EntryEditView extends View {
 	addListenerDelete(handler) {
 		const btn = document.querySelector("[data-btn='delete']");
 		btn.addEventListener('click', e => {
-			if(e.target.textContent === 'Delete') this.deleteEntry(handler);
+			if(e.target.textContent === 'Delete') handler(this._data.entry.id);
 		})
 	}
 

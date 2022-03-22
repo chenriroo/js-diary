@@ -11,16 +11,17 @@ import HomeView from './views/homeView';
 
 const controlDisplayHome = async () => {
 	HomeView.render();
-	HomeView.addListenerCreateEntry({
-		createEntry: controlCreateEntry,
-		deleteEntry: handleDeleteEntry,
-		updateEntry: handleUpdateEntry,
-	});
+
+	// HomeView.addListenerCreateEntry({
+	// 	createEntry: controlCreateEntry,
+	// 	deleteEntry: controlDeleteEntry,
+	// 	updateEntry: handleUpdateEntry,
+	// });
 }
 
 const controlDatepicker = (input) => {
 	model.storeDateSelection(input)
-	
+
 	if(!model.state.curDate.year) return
 	if(!model.state.curDate.month) return
 
@@ -31,6 +32,8 @@ const controlDatepicker = (input) => {
 // Display entries based on year & month selection
 // arg reload: no new date/data (when changing entrySize in settings)
 const controlGetEntries = async (input, reload=false, empty=false) => {
+
+	//console.log(model.state.curDate)
 	await model.getEntries('date', model.state.curDate)
 
 	const arr1 = [];
@@ -64,7 +67,7 @@ const controlGetEntries = async (input, reload=false, empty=false) => {
 		if(entry.day > 21 && entry.day <= 28) arr4.push(entry)
 		if(entry.day > 28) arr5.push(entry)
 	})
-
+	//Entries.removeListenerCreateEntry();
 	Entries.render({
 		entries: [arr1,arr2,arr3,arr4,arr5]
 	})
@@ -89,7 +92,7 @@ const handleDisplayEntry = async (e, id=undefined) => {
 			edit: true 
 		}, true);
 		EntryEdit.addListenerToggleView(handleToggleView);
-		EntryEdit.addListenerDelete(handleDeleteEntry);
+		EntryEdit.addListenerDelete(controlDeleteEntry);
 		EntryEdit.addListenerUpdate(handleUpdateEntry);
 		EntryEdit.transitionIn(1);
 	} else {
@@ -98,7 +101,7 @@ const handleDisplayEntry = async (e, id=undefined) => {
 			edit: false
 		},true);
 		EntryView.addListenerToggleView(handleToggleView);
-		EntryView.addListenerDelete(handleDeleteEntry);
+		EntryView.addListenerDelete(controlDeleteEntry);
 		EntryView.transitionIn(1);
 	}
 
@@ -107,6 +110,9 @@ const handleDisplayEntry = async (e, id=undefined) => {
 //  Otherwise uses the current date
 const controlCreateEntry = async (setDate=false, day) => {
 	await model.createEntry(setDate, day);
+
+	return
+
 	model.toggleEditMode(true);
 	handleDisplayEntry(undefined, model.state.curEntry.id);
 	return
@@ -123,7 +129,7 @@ const handleToggleView = (isEditMode) => {
 			edit: true 
 		}, true);
 		EntryEdit.addListenerToggleView(handleToggleView);
-		EntryEdit.addListenerDelete(handleDeleteEntry);
+		EntryEdit.addListenerDelete(controlDeleteEntry);
 		EntryEdit.addListenerUpdate(handleUpdateEntry);
 		EntryEdit.transitionIn(1);
 	} else {
@@ -132,15 +138,19 @@ const handleToggleView = (isEditMode) => {
 			edit: false
 		},true);
 		EntryView.addListenerToggleView(handleToggleView);
-		EntryView.addListenerDelete(handleDeleteEntry);
+		EntryView.addListenerDelete(controlDeleteEntry);
 		EntryView.transitionIn(1);
 	}
 }
 
-const handleDeleteEntry = async (id) => {
+const controlDeleteEntry = async (id) => {
 	await model.deleteEntry(id);
+	EntryView.transitionOut(1); //EntryEdit same function, not important for now
 
-	controlDisplayHome();
+	setTimeout(() => {
+		controlDisplayHome();
+	},500)
+	
 }
 
 const handleUpdateEntry = async (id, data) => {
@@ -192,11 +202,15 @@ const controllerModifySetting = (setting) => {
 	}
 }
 
-
 const init = () => {
+	const {month:curMonth, year:curYear} = model.createFormatTime()
+
 	DatePicker.render();
 	DatePicker.populateYears();
 	DatePicker.addListenerDateSelection(controlDatepicker);
+
+	controlDatepicker(['year',curYear]);
+	controlDatepicker(['month',curMonth]);
 
 	controlDisplayHome()
 	Sidebar.addListenerToggleView();

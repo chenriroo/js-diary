@@ -60,10 +60,7 @@ class DatePicker extends View {
 			if(el == inputMonth) handler(['month', el.value]);
 			return
 		});
-
-
-
-		console.log(inputYear.value, inputMonth.value)
+		//console.log(inputYear.value, inputMonth.value)
 	}
 
 	addListener(handler) {

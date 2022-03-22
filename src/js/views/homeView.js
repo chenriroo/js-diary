@@ -4,16 +4,15 @@ import EntryEdit from './entryEditView';
 class HomeView extends View {
 	_parentElement = document.querySelector('.main');
 	_htmlBlock = `
+		<div class="block block--centered">
 			<h1>Create new entry</h1>
 			<button class="btn btn--new-entry" data-button="home-newEntry">Add entry</button>
+		</div>
 	`;
 
 	HTML() {
 		//console.log(this._data)
 		return `
-				<div class="block block--centered">
-					${this._htmlBlock}
-				</div>
 		`
 	}
 

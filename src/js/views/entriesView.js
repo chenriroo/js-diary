@@ -4,14 +4,24 @@ import PreviewEntry from "./previewEntryView";
 class Entries extends View {
 	_parentElement = this.selectEl('.sidebar__entries');
 
-	addlistenerCreateEntry(handler) {
-		this._parentElement.addEventListener('click', e => {
-			let target = e.target
+	removeListenerCreateEntry() {
+		this._parentElement.removeEventListener('click')
+	}
 
-			if(target.tagName === 'DIV')target = target.parentNode;
-			if(target.tagName === 'SPAN')target = target.parentNode.parentNode;
-			if(target.classList.contains('entryPreview--single')) return
-			handler(true, target.dataset.day)
+	addlistenerCreateEntry(handler) {
+		const foo = document.querySelectorAll('.entries__column')
+
+
+		foo.forEach(el => {
+			el.addEventListener('click', e => {
+				let target = e.target
+	
+				if(target.tagName === 'DIV')target = target.parentNode;
+				if(target.tagName === 'SPAN')target = target.parentNode.parentNode;
+				if(target.classList.contains('entryPreview--single')) return
+				console.log('addListenerCreateEntry()')
+				handler(true, target.dataset.day)
+			})
 		})
 	}
 

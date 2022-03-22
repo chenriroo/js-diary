@@ -53,11 +53,6 @@ class EntryView extends View {
 		},delay)
 	}
 
-	deleteEntry() {
-		console.log('entryView.deleteEntry()')
-		handler(this._data.entry.id);
-	}
-
 	addListenerToggleView(handler) {
 		const settings = document.querySelector('.entry__settings');
 		settings.addEventListener('click', e => {
@@ -68,7 +63,7 @@ class EntryView extends View {
 	addListenerDelete(handler) {
 		const settings = document.querySelector('.entry__settings');
 		settings.addEventListener('click', e => {
-			if(e.target.textContent === 'Delete') this.deleteEntry(handler)
+			if(e.target.textContent === 'Delete') handler(this._data.entry.id);
 		});
 	};
 

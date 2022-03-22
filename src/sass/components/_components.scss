@@ -62,12 +62,6 @@
 
 	}
 
-	&--small { height: 5rem; }
-
-	&--home {
-		height: 15rem;
-		width: 30rem;
-	}
 
 	&:hover {
 		//background-color: rgba(210, 235, 255, 0.40);
@@ -76,5 +70,9 @@
 		outline: 2px solid rgba(118, 178, 228, 0.5);
 	}
 
+}
+
+.entryPreview--empty{
+	//background-color: red;
 }
 
