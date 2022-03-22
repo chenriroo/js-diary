@@ -17,12 +17,6 @@ class BottomNav extends View {
 			if(el.textContent === 'Entries') {
 				handler.entries();
 			}
-			if(el.textContent === 'Settings') {
-				const el = document.querySelector('.container');
-				const settings = document.querySelector('.settings');
-				
-				el.contains(settings) ? handler.settings(true) : handler.settings(false)
-			}
 		})
 	}
 }

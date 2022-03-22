@@ -10,10 +10,6 @@ export const state = {
 	curEntry: {},
 	modes: {
 		editMode: false,
-	},
-	settings: {
-		theme: 'basic-light',
-		entrySize: 'small',
 	}
 }
 
@@ -193,14 +189,8 @@ export const deleteEntry = async (id) => {
 	});
 }
 
-
 export const storeDateSelection = (input) => {
 	if(input[0] === 'year') state.curDate.year = input[1];
 	if(input[0] === 'month') state.curDate.month = input[1];
 	return
-}
-
-export const modifySetting = input => {
-	const { setting, value} = input;
-	state.settings[setting] = value;
 }

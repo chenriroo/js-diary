@@ -2,7 +2,6 @@ import * as model from './model';
 import BottomNav from './views/bottomNavView';
 import Sidebar from './views/sidebarView';
 import DatePicker from './views/datePickerView';
-import Settings from './views/settingsView';
 import Entries from './views/entriesView';
 import EntryView from './views/entryView';
 import EntryEdit from './views/entryEditView';
@@ -30,7 +29,7 @@ const controlDatepicker = (input) => {
 
 
 // Display entries based on year & month selection
-// arg reload: no new date/data (when changing entrySize in settings)
+// arg reload: no new date/data
 const controlGetEntries = async (input, reload=false, empty=false) => {
 
 	//console.log(model.state.curDate)
@@ -167,36 +166,6 @@ const controllerDisplayEntries = () => {
 }
 
 
-// Settings
-//-----------
-const controllerDisplaySettings = (exists) => {
-	if(exists) {
-		Settings.transitionOut();
-		setTimeout(() => {
-			Settings.remove();
-		}, 150);
-	} else {
-		Settings.render(model.state.settings, true, true);
-		Settings.assignVariables();
-		Settings.transitionIn();
-		Settings.addListener({
-			close: controllerDisplaySettings,
-			setting: controllerModifySetting
-		});
-
-	}
-}
-
-const controllerModifySetting = (setting) => {
-	model.modifySetting(setting);
-	if(setting.setting === 'entrySize') {
-		controlGetEntries(undefined, true)
-	}
-
-	if(setting.setting === 'theme') {
-		console.log('themechange: change css')
-	}
-}
 
 const init = () => {
 	const {month:curMonth, year:curYear} = model.createFormatTime()
@@ -213,7 +182,6 @@ const init = () => {
 	BottomNav.addListener({
 		home: controlDisplayHome,
 		entries: controllerDisplayEntries,
-		settings: controllerDisplaySettings
 	});
 }
 
