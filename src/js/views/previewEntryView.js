@@ -3,8 +3,8 @@ import View from "./View";
 class PreviewEntryView extends View {
 
 	HTML() {
-		const a = `<span class="entryPreview__icon--entry">${this._data.time}</span>`
-		const b = `<span class="entryPreview__icon--empty">Empty</span>`
+		const a = `<span class="entryPreview__icon--entry">&#10003;</span>`
+		const b = `<span class="entryPreview__icon--empty"></span>`
 
 		return `
 			<a class="entryPreview ${this._data.hasEntry ? 'entryPreview--single': 'entryPreview--empty'}" href="#${this._data.id}" data-day="${this._data.day}">

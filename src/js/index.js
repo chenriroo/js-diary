@@ -39,7 +39,7 @@ const controlGetEntries = async (input, reload=false, empty=false) => {
 	
 	await model.getEntries('date', model.state.curDate)
 	const existingDays = new Set(model.state.curEntries.map(entry => entry.day))
-	
+
 	for(let i=1; i<32; i++) {
 		if(existingDays.has(i)) continue
 		arrPlaceholders.push({
@@ -52,8 +52,10 @@ const controlGetEntries = async (input, reload=false, empty=false) => {
 		});
 	};
 
+
 	arrPlaceholders = arrPlaceholders.concat(model.state.curEntries)
 	arrPlaceholders.sort((a, b) => a.day - b.day)
+
 	arrPlaceholders.forEach(entry => {
 		if(entry.day <= 7) arr1.push(entry)
 		if(entry.day > 7 && entry.day <= 14) arr2.push(entry)
@@ -102,6 +104,8 @@ const handleDisplayEntry = async (e, id=undefined) => {
 // setDate: Create entry on specific day via the datepicker using the 'day' argument
 const controlCreateEntry = async (setDate=false, day) => {
 	await model.createEntry(setDate, day);
+
+	return
 	controlGetEntries()
 	model.toggleEditMode(true);
 	handleDisplayEntry(undefined, model.state.curEntry.id);
@@ -157,7 +161,6 @@ const init = () => {
 	DatePicker.populateYears();
 	DatePicker.initSelection(model.state.curDate)
 	DatePicker.addListenerDateSelection(controlDatepicker);
-
 
 	controlDisplayHome()
 	Sidebar.addListenerToggleView();

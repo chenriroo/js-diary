@@ -107,24 +107,23 @@ const createEntryObject = (data) => {
 	return objEntry
 }
 
-export const createEntry = async (setDate = false, day) => {
+export const createEntry = async (setDate=false, day) => {
 	try {
-		let objNewEntry
+		let objNewEntry;
 		if(setDate) {
 			const {year,month} = state.curDate
 			objNewEntry = {
-				date: new Date(year, month-1,day),
+				date: new Date(year, month-1,day, 12),
 				content: ''
-			}
+			};
 		} else {
 			objNewEntry = {
 				date: new Date(),
 				content: ''
-			}
-		}
+			};
+		};
 
-		let foo = await AJAX(`http://localhost:5000/entries/`, objNewEntry)
-	
+		let foo = await AJAX(`http://localhost:5000/entries/`, objNewEntry);	
 		const {date, time} = createFormatTime(foo.date)
 	
 		const outputEntry = {

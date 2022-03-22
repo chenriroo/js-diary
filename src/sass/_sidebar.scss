@@ -31,6 +31,9 @@
 	&__entries {
 		flex: 1;
 		padding: 2rem 0;
+		align-items: center;
+
+
 	}
 
 	&--collapse {
@@ -51,17 +54,23 @@
 .entries {
 	display: flex;
 	flex-flow: column;
-	justify-content: center;
+	justify-content: flex-start;
 	width: 100%;
 	overflow-y: scroll;
 
 	@include respond(tablet-land) {
+		justify-content: center;
 		flex-flow: row;
 		overflow: hidden;
 	}
 
 	&__column {
 		flex: 0 0 15rem;
+		width: 80%;
+
+		@include respond(tablet-land) {
+			width: auto;
+		}
 	}
 
 
