@@ -4,7 +4,7 @@ class EntryEditView extends View {
 	_parentElement = document.querySelector('.main');
 
 	HTML() {
-		console.log(this._data)
+		//console.log(this._data)
 		return `
 			<div class="entry entry__edit invisible">
 

@@ -37,7 +37,8 @@ export const getEntries = async (type, inputDate) => {
 				day: parseInt(day),
 				date: date,
 				time: time,
-				content: entry.content
+				content: entry.content,
+				hasEntry: true 
 			}
 		})
 		if(type === 'date') state.curEntries = arrEntries
@@ -98,11 +99,20 @@ export const toggleEditMode = (isEditMode) => {
 	isEditMode ? state.modes.editMode = true : state.modes.editMode = false;
 }
 
-export const createEntry = async () => {
+export const createEntry = async (setDate = false, day) => {
 	try {
-		let objNewEntry = {
-			date: new Date(),
-			content: '',
+		let objNewEntry
+		if(setDate) {
+			const {year,month} = state.curDate
+			objNewEntry = {
+				date: new Date(year, month-1,day),
+				content: ''
+			}
+		} else {
+			objNewEntry = {
+				date: new Date(),
+				content: ''
+			}
 		}
 	
 		let foo = await AJAX(`http://localhost:5000/entries/`, objNewEntry)

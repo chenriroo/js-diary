@@ -5,9 +5,13 @@ class Entries extends View {
 	_parentElement = this.selectEl('.sidebar__entries');
 
 	addlistenerCreateEntry(handler) {
-		let el = document.querySelector('.btn--new-entry')
-		el.addEventListener('click', e => {
-			handler()
+		this._parentElement.addEventListener('click', e => {
+			let target = e.target
+
+			if(target.tagName === 'DIV')target = target.parentNode;
+			if(target.tagName === 'SPAN')target = target.parentNode.parentNode;
+			if(target.classList.contains('entryPreview--single')) return
+			handler(true, target.dataset.day)
 		})
 	}
 

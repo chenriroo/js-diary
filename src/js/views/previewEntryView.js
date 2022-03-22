@@ -3,10 +3,9 @@ import View from "./View";
 class PreviewEntryView extends View {
 
 	HTML() {
-		console.log(this._data)
 
 		return `
-			<a class="entryPreview" href="#${this._data.id}">
+			<a class="entryPreview ${this._data.hasEntry ? 'entryPreview--single': ''}" href="#${this._data.id}" data-day="${this._data.day}">
 				<div class="entryPreview__day">
 					<span>${this._data.day}</span>
 				</div>

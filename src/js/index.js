@@ -12,7 +12,7 @@ import HomeView from './views/homeView';
 const controlDisplayHome = async () => {
 	HomeView.render();
 	HomeView.addListenerCreateEntry({
-		createEntry: handleCreateEntry,
+		createEntry: controlCreateEntry,
 		deleteEntry: handleDeleteEntry,
 		updateEntry: handleUpdateEntry,
 	});
@@ -45,11 +45,12 @@ const controlGetEntries = async (input, reload=false, empty=false) => {
 	for(let i=1; i<32; i++) {
 		if(existingDays.has(i)) continue
 		arrPlaceholders.push({
-			id: 'create-new',
+			id: '',
 			day: i,
 			date: '',
 			time: '',
-			content: ''
+			content: '',
+			hasEntry: false,
 		});
 	};
 
@@ -68,12 +69,12 @@ const controlGetEntries = async (input, reload=false, empty=false) => {
 		entries: [arr1,arr2,arr3,arr4,arr5]
 	})
 
-	Entries.addlistenerCreateEntry(handleCreateEntry)
+	Entries.addlistenerCreateEntry(controlCreateEntry)
 }
 
 const handleDisplayEntry = async (e, id=undefined) => {
 	if(!id) {
-		console.log('id=undefined, using hash')
+		//console.log('id=undefined, using hash')
 		const hash = window.location.hash.slice(1)
 		if(!hash) return
 	
@@ -102,9 +103,10 @@ const handleDisplayEntry = async (e, id=undefined) => {
 	}
 
 }
-
-const handleCreateEntry = async () => {
-	await model.createEntry();
+// setDate: Create entry on specific day via the datepicker using the 'day' argument
+//  Otherwise uses the current date
+const controlCreateEntry = async (setDate=false, day) => {
+	await model.createEntry(setDate, day);
 	model.toggleEditMode(true);
 	handleDisplayEntry(undefined, model.state.curEntry.id);
 	return
