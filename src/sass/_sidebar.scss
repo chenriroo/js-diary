@@ -11,7 +11,6 @@
 	opacity: 1;
 	transition: opacity 0.3s ease-in, height 0.4s, max-height 0.4s;
 
-	// Edge disappears when sidebar height < 35% 
 	&__edge {
 		flex: 0 0 6px;
 		outline: 0;
@@ -25,20 +24,16 @@
 		flex-flow: row;
 		background-color: #f9f9f9;
 		box-shadow: 0 0 5px 0 gainsboro;
-		//border-bottom: 2px solid rgb(240, 240, 240);
 	}
 
 	&__entries {
 		flex: 1;
 		padding: 2rem 0;
 		align-items: center;
-
-
 	}
 
 	&--collapse {
 		max-height:1%;
-		//height: 0;
 		opacity: 0;
 	}
 
@@ -72,15 +67,4 @@
 			width: auto;
 		}
 	}
-
-
-
-	&__item {
-		list-style: none;
-	}
-}
-
-
-.hidden {
-	display:none;
 }

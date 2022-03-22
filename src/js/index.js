@@ -105,7 +105,6 @@ const handleDisplayEntry = async (e, id=undefined) => {
 const controlCreateEntry = async (setDate=false, day) => {
 	await model.createEntry(setDate, day);
 
-	return
 	controlGetEntries()
 	model.toggleEditMode(true);
 	handleDisplayEntry(undefined, model.state.curEntry.id);
