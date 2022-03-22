@@ -14,14 +14,14 @@ class EntryEditView extends View {
 				</div>
 
 				<form class="form">
-					
+				<input title="date" type="date" class="form__date" name="date" id="date" value="${this._data.entry.date}" readonly>
 					<input title="time" type="time" class="form__time" name="time" id="time" value="${this._data.entry.time}">
 					<textarea title="content" class="form__textarea" id="content" name="content" placeholder="Dear diary...">${this._data.entry.content}</textarea>
 					<input type="submit" value="Apply">
 				</form>
 			</div>
 		`
-		//<input title="date" type="date" class="form__date" name="date" id="date" value="${this._data.entry.date}">
+		//
 	}
 
 	transitionIn(delay=1000) {

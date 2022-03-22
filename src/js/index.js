@@ -110,12 +110,8 @@ const handleDisplayEntry = async (e, id=undefined) => {
 //  Otherwise uses the current date
 const controlCreateEntry = async (setDate=false, day) => {
 	await model.createEntry(setDate, day);
-
-	return
-
 	model.toggleEditMode(true);
 	handleDisplayEntry(undefined, model.state.curEntry.id);
-	return
 }
 
 // Entry functions
@@ -204,13 +200,13 @@ const controllerModifySetting = (setting) => {
 
 const init = () => {
 	const {month:curMonth, year:curYear} = model.createFormatTime()
-
-	DatePicker.render();
-	DatePicker.populateYears();
-	DatePicker.addListenerDateSelection(controlDatepicker);
-
 	controlDatepicker(['year',curYear]);
 	controlDatepicker(['month',curMonth]);
+	DatePicker.render();
+	DatePicker.populateYears();
+	DatePicker.initSelection(model.state.curDate)
+	DatePicker.addListenerDateSelection(controlDatepicker);
+
 
 	controlDisplayHome()
 	Sidebar.addListenerToggleView();

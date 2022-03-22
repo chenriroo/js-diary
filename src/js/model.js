@@ -49,6 +49,18 @@ export const getEntries = async (type, inputDate) => {
 	}
 }
 
+export const getEntry = async (id) => {
+	try {
+		const entry = await AJAX(`http://localhost:5000/entries/${id}`);
+		
+		state.curEntry = createEntryObject(entry)
+		return
+
+	} catch(err) {
+		console.error(err, 'model.getEntry()')
+	}
+}
+
 
 export const createFormatTime = (input) => {
 	let objDate;
@@ -96,24 +108,7 @@ const createEntryObject = (data) => {
 			time: time,
 			content: data.content
 		}
-
 	return objEntry
-}
-
-export const getEntry = async (id) => {
-	try {
-		const entry = await AJAX(`http://localhost:5000/entries/${id}`);
-		
-		state.curEntry = createEntryObject(entry)
-		return
-
-	} catch(err) {
-		console.error(err, 'model.getEntry()')
-	}
-}
-
-export const toggleEditMode = (isEditMode) => {
-	isEditMode ? state.modes.editMode = true : state.modes.editMode = false;
 }
 
 export const createEntry = async (setDate = false, day) => {
@@ -131,7 +126,7 @@ export const createEntry = async (setDate = false, day) => {
 				content: ''
 			}
 		}
-		
+
 		let foo = await AJAX(`http://localhost:5000/entries/`, objNewEntry)
 	
 		const {date, time} = createFormatTime(foo.date)
@@ -149,7 +144,9 @@ export const createEntry = async (setDate = false, day) => {
 	}
 }
 
-
+export const toggleEditMode = (isEditMode) => {
+	isEditMode ? state.modes.editMode = true : state.modes.editMode = false;
+}
 
 const updateStateCurEntry = (arrData) => {
 	const newCurEntry = {

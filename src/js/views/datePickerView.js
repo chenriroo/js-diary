@@ -38,6 +38,20 @@ class DatePicker extends View {
 			`
 	}
 
+	initSelection(curDate) {
+		const {year, month} = curDate;
+		const optionsYear = document.querySelectorAll('.datepicker-year > option');
+		const optionsMonth = document.querySelectorAll('.datepicker-month > option');
+		
+		optionsYear.forEach(optionYear => {
+			if(optionYear.value == year) optionYear.selected='selected'
+		});
+
+		optionsMonth.forEach(optionMonth => {
+			if(optionMonth.value == month) optionMonth.selected='selected'
+		});
+	};
+
 	populateYears() {
 		const yearPicker = document.querySelector('#year')
 		const curYear = new Date().getFullYear();
