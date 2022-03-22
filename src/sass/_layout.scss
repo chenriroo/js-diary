@@ -13,6 +13,9 @@
 
 .bottom-nav {
 	flex: 0 0 5rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	height: 5rem;
 	background-color: rgb(65, 65, 65);
 	z-index: 10;

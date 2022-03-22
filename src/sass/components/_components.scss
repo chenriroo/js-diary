@@ -1,11 +1,16 @@
-.btn {
-	padding: 1rem;
+.btn, a.btn {
+	flex: 0 0 6rem;
+	display:flex;
+	justify-content: center;
+	align-items: center;
 	margin: 0 1rem;
 	background-color: white;
-	box-shadow: 0 0 5px 0 rgb(220, 220, 220);
+	color: black;
+	box-shadow: 0 0 4px 0 rgb(220, 220, 220);
 	border: none;
-	//outline: 1px solid rgb(219, 219, 219);
+	height:4rem;
 	border-radius: 3px;
+	text-decoration: none;
 	
 	&:hover { 
 		background-color: rgba(118, 178, 228, 0.50);
@@ -39,27 +44,23 @@
 	padding: 2rem;
 	margin: 1rem;
 	text-decoration: none;
-	height: 5rem;
+	height: 6rem;
 	background-color: white;
 	border-radius: 4px;
 	box-shadow: 0 0 10px 0 rgb(220 220 220);
 
 	@include respond(tablet-land) {
+		height: 5rem;
 		padding: 1rem;
 	}
 
 	&__day {
+		flex: 2;
+		font-size: 2rem;
+	}
+
+	&__time {
 		flex: 1;
-	}
-
-	&__other {
-		flex: 4;
-		display: flex;
-		flex-flow: column;
-	}
-
-	&__content {
-
 	}
 
 

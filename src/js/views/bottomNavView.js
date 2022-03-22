@@ -4,7 +4,7 @@ class BottomNav extends View {
 	_parentElement = this.selectEl('.bottom-nav');
 	_btnEntries = this.selectEl('.btn--entries')
 	
-	addListener(handler) {
+	addListeners(handler) {
 		this._parentElement.addEventListener('click', e => {
 			//e.preventDefault()
 			const el = e.target;
@@ -15,7 +15,7 @@ class BottomNav extends View {
 			}
 
 			if(el.textContent === 'Entries') {
-				handler.entries();
+				document.querySelector('.sidebar').classList.toggle('sidebar--collapse')
 			}
 		})
 	}

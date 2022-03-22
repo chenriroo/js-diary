@@ -15,11 +15,8 @@ class Entries extends View {
 		foo.forEach(el => {
 			el.addEventListener('click', e => {
 				let target = e.target
-	
-				if(target.tagName === 'DIV')target = target.parentNode;
-				if(target.tagName === 'SPAN')target = target.parentNode.parentNode;
-				if(target.classList.contains('entryPreview--single')) return
-				console.log('addListenerCreateEntry()')
+				if(target.tagName === 'SPAN')target = target.parentNode;
+				if(!target.classList.contains('entryPreview--empty')) return
 				handler(true, target.dataset.day)
 			})
 		})
