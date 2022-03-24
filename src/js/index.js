@@ -27,19 +27,60 @@ const controlDatepicker = (input) => {
 	controlGetEntries();
 }
 
-// arg reload: no new date/data
+// Retrieving entries with same day, unfinished
+const tempGetSameDay = (entries) => {
+	const arrSameDay = [];
+
+	for(let aLoop=0; aLoop<entries.length;aLoop++) {
+		let entryA = entries[aLoop]
+		//console.log('a-Loop',entry)
+
+		for(let i=0; i<entries.length; i++) {
+			if(i<=aLoop) continue
+			let entryB = entries[i]
+			console.log(entryA,entryB);
+			if(entryA.day === entryB.day) {
+				arrSameDay.push(entryA)
+				arrSameDay.push(entryB)
+			}
+		}
+	}
+
+	console.log(arrSameDay)
+	const foo = new Set(arrSameDay)
+	console.log(foo)
+}
+
+// Filter entries with the same day
+const filterSameDay = (entries) => {
+	const objDays = [];	// Object with day + entries
+	const arrDays = []; // Array with number of the day(s)
+	for(let i=1; i<32; i++) {
+		let foo={
+			day: i,
+			multiEntry: true, 
+			entries: []
+		};
+		entries.filter(entry => {
+			if(entry.day === i) foo.entries.push(entry)	
+		})
+		if(foo.entries.length>1) {
+			objDays.push(foo);
+			arrDays.push(foo.day)
+		}
+	}
+	return [arrDays, objDays];
+}
+
+// Parameter reload: no new date/data
 const controlGetEntries = async (input, reload=false, empty=false) => {
 	
-	const arr1 = [];
-	const arr2 = [];
-	const arr3 = [];
-	const arr4 = [];
-	const arr5 = [];
-	let arrPlaceholders = []		
-	
+	const arr1 = [], arr2=[], arr3=[], arr4=[], arr5=[];
+	let arrPlaceholders = [];
+			
 	await model.getEntries('date', model.state.curDate)
-	const existingDays = new Set(model.state.curEntries.map(entry => entry.day))
 
+	const existingDays = new Set(model.state.curEntries.map(entry => entry.day))
 	for(let i=1; i<32; i++) {
 		if(existingDays.has(i)) continue
 		arrPlaceholders.push({
@@ -52,22 +93,26 @@ const controlGetEntries = async (input, reload=false, empty=false) => {
 		});
 	};
 
+	const arrEntries = arrPlaceholders.concat(model.state.curEntries)
+	arrEntries.sort((a, b) => a.day - b.day)
 
-	arrPlaceholders = arrPlaceholders.concat(model.state.curEntries)
-	arrPlaceholders.sort((a, b) => a.day - b.day)
+	const [arrSameDays, objSameDays] = filterSameDay(model.state.curEntries);
+	const arrSingleDayEntries = arrEntries.filter(entry => !arrSameDays.includes(entry.day))
+	
+	const arrEntriesFinal = arrSingleDayEntries.concat(objSameDays).sort((a,b) => a.day-b.day);
 
-	arrPlaceholders.forEach(entry => {
+	arrEntriesFinal.forEach(entry => {
 		if(entry.day <= 7) arr1.push(entry)
 		if(entry.day > 7 && entry.day <= 14) arr2.push(entry)
 		if(entry.day > 14 && entry.day <= 21) arr3.push(entry)
 		if(entry.day > 21 && entry.day <= 28) arr4.push(entry)
 		if(entry.day > 28) arr5.push(entry)
 	});
-
+	
 	Entries.render({
 		entries: [arr1,arr2,arr3,arr4,arr5]
 	});
-	Entries.addlistenerCreateEntry(controlCreateEntry)
+	Entries.addListeners(controlCreateEntry)
 }
 
 const handleDisplayEntry = async (e, id=undefined) => {

@@ -38,7 +38,7 @@ export const getEntries = async (type, inputDate) => {
 			}
 		})
 		if(type === 'date') state.curEntries = arrEntries
-		if(type === 'paginate') state.homeEntries = arrEntries;
+		if(type === 'paginate') return // remove paginate functionality
 
 	} catch (err) {
 		console.log(err, 'model.getEntries()');

@@ -32,11 +32,9 @@
 	background-color: white;
 	border-radius: 4px;
 	box-shadow: 0 0 10px 0 rgb(220 220 220);
+	transition: outline 0.3s;
 
-	@include respond(tablet-land) {
-		height: 5rem;
-		padding: 1rem;
-	}
+
 
 	&__day {
 		flex: 2;
@@ -52,6 +50,19 @@
 		outline: 2px solid rgba(118, 178, 228, 0.5);
 	}
 
+	@include respond(tablet-land) {
+		height: 5rem;
+		padding: 1rem;
+	}
+}
+
+.entryPreview--empty {
+	background-color: white;
+	transition: background-color 0.3s;
+
+	&:hover {
+		background-color: rgba(118, 178, 228, 0.5);
+	}
 }
 
 .entryPreview__icon {
