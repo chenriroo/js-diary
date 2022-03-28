@@ -2,41 +2,34 @@ import View from "./View";
 import PreviewEntry from "./previewEntryView";
 
 class Entries extends View {
-	_parentElement = this.selectEl('.entries');
+	_parentElement = document.querySelector('.sidebar__entries')
 
-	entryHover(e) {
-		const target = e.target;
-		if(target.classList.contains('entryPreview--multi')) {
-			const block = target.querySelector('.entryPreview__entry-block')
-			block.classList.toggle('hidden');
-			console.log(target)
-		} else if(target.classList.contains('entryPreview--empty')) {
-			const block = target.querySelector('.entryPreview__hover')
-			block.classList.toggle('hidden');
-		} if(target.classList.contains('entryPreview--single')) {
-			console.log(target)
-		} else return
+	addListenerCreateEntry(handler) {
+		console.log('entriesView.addListenerCreateEntry()')
+		const el = this._parentElement.querySelector('.entries')
+		el.addEventListener('click', e => {
+			let target = e.target;
+			if(target.classList.contains('entryPreview__day')) target = target.parentNode;
+			if(target.classList.contains('entryPreview__create')) {
+				handler(true, target.dataset.day)
+			}
+		})
 	}
 
-
-
-	entryClick(e, handler) {
-		let target = e.target;
-		if(target.tagName==='SPAN') target = target.parentNode;
-		if(target.tagName!=='A') return
-		console.log(target)
-	}
-
-	addListeners(handler) {
-		//this._parentElement.addEventListener('click', this.entryClick);
-		this._parentElement.addEventListener('mouseenter', this.entryHover, true);
-		this._parentElement.addEventListener('mouseleave', this.entryHover, true);
+	addListenerSelectDay(handler) {
+		const el = this._parentElement.querySelector('.entries')
+		el.addEventListener('click', e => {
+			let target = e.target;
+			if(target.classList.contains('entryPreview__entry')) {
+				
+			}
+		})
 	}
 
 	HTML() {
 		//console.log('entriesView._data',this._data)
 		return `
-			<nav class="entries">
+			<nav class="entries" role="navigation">
 				<div class="entries__column">
 					${this._data.entries[0].map(entry => PreviewEntry.render(entry, false)).join('')}
 				</div>

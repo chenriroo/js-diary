@@ -25,56 +25,98 @@
 
 .entryPreview {
 	display: flex;
-	padding: 2rem;
+	position: relative;
+	justify-content: space-between;
 	margin: 1rem;
 	text-decoration: none;
 	height: 6rem;
 	background-color: white;
 	border-radius: 4px;
-	box-shadow: 0 0 10px 0 rgb(220 220 220);
-	transition: outline 0.3s;
-
-
+	box-shadow: 0 0 7px 0 rgb(220 220 220);
+	transition: all;
 
 	&__day {
-		flex: 2;
-		font-size: 2rem;
+		opacity: 1;
+		position: absolute;
+		font-size: 1.5rem;
+		top: 1rem;
+		left: 1rem;
+		transition: all 0.2s;
 	}
 
-	&__time {
+	&__entry {
 		flex: 1;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		//text-align: center;
+		opacity: 1;
+		cursor: pointer;
+
+		& > a,
+		& > span:nth-child(2) {
+			flex: 1;
+			text-align: center;
+			line-height: 5rem;
+			text-decoration: none;
+			opacity: 0;
+			transition: all 0.2s;
+		}
+
+		&:hover .entryPreview__day {
+			opacity: 0;
+		}
+
+		&:hover .entryPreview__dropdown,
+		&:hover > a,
+		&:hover > span:nth-child(2) {
+			opacity: 1;
+		}
+	}
+
+	&__create {
+		flex: 0 0 3rem;
+		align-self: flex-end;
+		text-align: center;
+		line-height: 5rem;
+		cursor: pointer;
+		background-color: white;
+		opacity: 0.4;
+		transition: all 0.2s;
+
+		&:hover { 
+			background-color: rgba(118, 178, 228, 0.3);
+			opacity: 0.8;
+		}
 	}
 
 	&:hover {
-		background-color: rgba(255, 255, 255, 0.7);
-		outline: 2px solid rgba(118, 178, 228, 0.5);
+		background-color: rgba(118, 178, 228, 0.1);
+		outline: 2px solid rgba(118, 178, 228, 0.3);
+	}
+
+	&:hover .entryPreview__entry {
+		opacity: 1;
 	}
 
 	@include respond(tablet-land) {
 		height: 5rem;
-		padding: 1rem;
+		//padding: 1rem;
 	}
 }
 
 .entryPreview--empty {
-	background-color: white;
-	transition: background-color 0.3s;
+	opacity: 0.5;
+	transition: all 0.2s;
 
-	&:hover {
-		background-color: rgba(118, 178, 228, 0.5);
-	}
+	&:hover {opacity: 1;}
 }
 
-.entryPreview__icon {
-
-	&--entry {
-		color: green;
-		font-size: 2rem;
-
-		@include respond(tablet-land) {
-			font-size: 1.5rem;
-		}
-	}
-	//background-color: red;
+.entryPreview__dropdown {
+	transition: all 0.2s;
+	width: 100%;
+	height: 100%;
+	border: none;
+	background-color: white;;
+	opacity: 0;
 }
-

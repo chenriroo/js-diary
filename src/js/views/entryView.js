@@ -8,6 +8,10 @@ class EntryView extends View {
 
 		const view = `
 		<div class="entry entry__view invisible">
+			<div class=entry__entries">
+				Placeholdereee
+			</div>
+
 			<div class="entry__settings">
 				<button class="btn">Edit</button>
 				<button class="btn">Delete</button>

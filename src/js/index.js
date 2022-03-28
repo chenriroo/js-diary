@@ -97,9 +97,12 @@ const controlGetEntries = async (input, reload=false, empty=false) => {
 	arrEntries.sort((a, b) => a.day - b.day)
 
 	const [arrSameDays, objSameDays] = filterSameDay(model.state.curEntries);
-	const arrSingleDayEntries = arrEntries.filter(entry => !arrSameDays.includes(entry.day))
+	const arrSingleDayEntries = arrEntries
+		.filter(entry => !arrSameDays.includes(entry.day))
 	
-	const arrEntriesFinal = arrSingleDayEntries.concat(objSameDays).sort((a,b) => a.day-b.day);
+	const arrEntriesFinal = arrSingleDayEntries
+		.concat(objSameDays)
+		.sort((a,b) => a.day-b.day);
 
 	arrEntriesFinal.forEach(entry => {
 		if(entry.day <= 7) arr1.push(entry)
@@ -112,7 +115,7 @@ const controlGetEntries = async (input, reload=false, empty=false) => {
 	Entries.render({
 		entries: [arr1,arr2,arr3,arr4,arr5]
 	});
-	Entries.addListeners(controlCreateEntry)
+	Entries.addListenerCreateEntry(controlCreateEntry);
 }
 
 const handleDisplayEntry = async (e, id=undefined) => {
@@ -148,11 +151,13 @@ const handleDisplayEntry = async (e, id=undefined) => {
 }
 // setDate: Create entry on specific day via the datepicker using the 'day' argument
 const controlCreateEntry = async (setDate=false, day) => {
+	console.log('controlCreateEntry()')
+	
 	await model.createEntry(setDate, day);
 
-	controlGetEntries()
 	model.toggleEditMode(true);
 	handleDisplayEntry(undefined, model.state.curEntry.id);
+	controlGetEntries()
 }
 
 const handleToggleView = (isEditMode) => {

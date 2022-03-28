@@ -21,9 +21,11 @@ export const getEntries = async (type, inputDate) => {
 
 		if(type === 'date') {
 			const date = `${inputDate.year}-${inputDate.month}`
-			fetchedEntries = await AJAX(`http://localhost:5000/entries?date_like=${date}`);
+			fetchedEntries = await 
+				AJAX(`http://localhost:5000/entries?date_like=${date}`);
 		} else if (type === 'paginate') {
-			fetchedEntries = await AJAX('http://localhost:5000/entries?_page=1&_limit=8');
+			fetchedEntries = await 
+				AJAX('http://localhost:5000/entries?_page=1&_limit=8');
 		}
 		
 		const arrEntries = fetchedEntries.map(entry => {
