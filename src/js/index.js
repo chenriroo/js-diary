@@ -116,6 +116,7 @@ const controlGetEntries = async (input, reload=false, empty=false) => {
 		entries: [arr1,arr2,arr3,arr4,arr5]
 	});
 	Entries.addListenerCreateEntry(controlCreateEntry);
+	Entries.addListenerSelectDropdownEntry();
 }
 
 const handleDisplayEntry = async (e, id=undefined) => {

@@ -5,7 +5,6 @@ class Entries extends View {
 	_parentElement = document.querySelector('.sidebar__entries')
 
 	addListenerCreateEntry(handler) {
-		console.log('entriesView.addListenerCreateEntry()')
 		const el = this._parentElement.querySelector('.entries')
 		el.addEventListener('click', e => {
 			let target = e.target;
@@ -16,13 +15,13 @@ class Entries extends View {
 		})
 	}
 
-	addListenerSelectDay(handler) {
+	addListenerSelectDropdownEntry(handler) {
 		const el = this._parentElement.querySelector('.entries')
 		el.addEventListener('click', e => {
-			let target = e.target;
-			if(target.classList.contains('entryPreview__entry')) {
-				
-			}
+			const target = e.target;
+			if(target.tagName !== 'SELECT') return
+			const value = target.value
+			window.location = `/${value}`
 		})
 	}
 
