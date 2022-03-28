@@ -194,7 +194,7 @@ const controlDeleteEntry = async (id) => {
 }
 
 const handleUpdateEntry = async (id, data) => {
-	console.log('handleUpdateEntry', [id, data])
+	console.log('handleUpdateEntry', [id, data]);
 	await model.editEntry(id, data);
 
 
